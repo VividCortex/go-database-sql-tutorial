@@ -12,7 +12,7 @@ is a reference for the most common aspects of how to use it.
 
 The first thing to do is import the `database/sql` package, and a driver package. You generally shouldn't use the driver package directly, although some drivers encourage you to do so. (In our opinion, it's usually a bad idea.) Instead, your code should only refer to `database/sql`. This helps avoid making your code dependent on the driver, so that you can change the underlying driver (and thus the database you're accessing) without changing your code. It also forces you to use the Go idioms instead of ad-hoc idioms that a particular driver author may have provided.
 
-In this documentation, we'll use the excellent MySQL drivers at https://github.com/go-sql-driver/mysql for examples.
+In this documentation, we'll use the excellent MySQL driver at https://github.com/go-sql-driver/mysql for examples.
 
 Add the following to the top of your Go source file:
 
@@ -59,7 +59,7 @@ In the example shown, we're illustrating several things:
 3. You should (almost) always check and handle errors returned from all `database/sql` operations.
 4. It is idiomatic to `defer db.Close()` if the `sql.DB` should not have a lifetime beyond the scope of the function.
 
-Perhaps counter-intuitively,sql.Open()` **does not establish any connections to the database**, nor does it validate driver connection parameters. Instead, it simply prepares the database abstraction for later use. The first actual connection to the underlying datastore will be established lazily, when it's needed for the first time. If you want to check right away that the database is available and accessible (for example, check that you can establish a network connection and log in), use `db.Ping()` to do that, and remember to check for errors:
+Perhaps counter-intuitively, `sql.Open()` **does not establish any connections to the database**, nor does it validate driver connection parameters. Instead, it simply prepares the database abstraction for later use. The first actual connection to the underlying datastore will be established lazily, when it's needed for the first time. If you want to check right away that the database is available and accessible (for example, check that you can establish a network connection and log in), use `db.Ping()` to do that, and remember to check for errors:
 
 ```go
 	err = db.Ping()
