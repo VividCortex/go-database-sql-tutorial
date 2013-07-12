@@ -171,7 +171,9 @@ for i := range ints {
 }
 for rows.Next() {
 	err := rows.Scan(vals...)
-	// now you can check each element of vals for nil-ness
+	// Now you can check each element of vals for nil-ness,
+	// and you can use type introspection and type assertions
+	// to fetch the column into a typed variable.
 }
 ```
 
@@ -288,6 +290,6 @@ This will throw an error. Be careful if you use `uint64` values, as they may sta
 Conclusion
 ==========
 
-We hope you've found this tutorial helpful. Please send pull requests with any contributions!
+We hope you've found this tutorial helpful. Please send pull requests with any contributions! We'd especially appreciate help with missing material, such as how to work with transactions.
 
 This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
