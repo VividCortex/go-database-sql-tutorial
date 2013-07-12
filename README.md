@@ -1,7 +1,7 @@
-This repo holds extra documentation on Go's database/sql package (http://golang.org/pkg/database/sql/).
-The package's documentation is kind of like a bad man page: it tells you what everything does, but it
+This is a tutorial on Go's database/sql package (http://golang.org/pkg/database/sql/).
+The package's documentation tells you what everything does, but it
 doesn't tell you how to use the package. We find ourselves wishing for a quick-reference and a "getting started"
-orientation. This repo is an attempt to provide that. Contributions are welcomed.
+orientation. This repo is an attempt to provide that. Contributions are welcome.
 
 Go's database/sql Package
 =========================
@@ -10,7 +10,7 @@ The idiomatic way to use a SQL, or SQL-like, database in Go is through the `data
 package. It provides a lightweight interface to a row-oriented database. This documentation
 is a reference for the most common aspects of how to use it.
 
-The first thing to do is import the `database/sql` package, and a driver package. You shouldn't use the driver package directly. Instead, your code should only refer to `database/sql`. This helps avoid making your code dependent on the driver, so that you can change the underlying driver (and thus the database you're accessing) without changing your code. It also forces you to use the Go idioms instead of ad-hoc idioms that a particular driver author may have provided.
+The first thing to do is import the `database/sql` package, and a driver package. You generally shouldn't use the driver package directly, although some drivers encourage you to do so. (In our opinion, it's usually a bad idea.) Instead, your code should only refer to `database/sql`. This helps avoid making your code dependent on the driver, so that you can change the underlying driver (and thus the database you're accessing) without changing your code. It also forces you to use the Go idioms instead of ad-hoc idioms that a particular driver author may have provided.
 
 In this documentation, we'll use the excellent MySQL drivers at https://github.com/go-sql-driver/mysql for examples.
 
@@ -30,7 +30,7 @@ Now you're ready to access a database.
 Accessing the Database
 ======================
 
-Now that you've loaded the driver package, you're ready to create a database object, a `sql.DB`. The first thing you should know is that **a `sql.DB` isn't a database connection**. It also doesn't map to any particular database software's notion of a "database" or "schema."" It's an abstraction of the interface and existence of a database, which might be a local file, accessed through a network connection, in-memory and in-process, or what have you.
+Now that you've loaded the driver package, you're ready to create a database object, a `sql.DB`. The first thing you should know is that **a `sql.DB` isn't a database connection**. It also doesn't map to any particular database software's notion of a "database" or "schema." It's an abstraction of the interface and existence of a database, which might be a local file, accessed through a network connection, in-memory and in-process, or what have you.
 
 The `sql.DB` performs some important tasks for you behind the scenes:
 
@@ -59,7 +59,7 @@ In the example shown, we're illustrating several things:
 3. You should (almost) always check and handle errors returned from all `database/sql` operations.
 4. It is idiomatic to `defer db.Close()` if the `sql.DB` should not have a lifetime beyond the scope of the function.
 
-Perhaps counter-intuitively, **`sql.Open()` doesn't actually establish any connections to the database**, nor does it validate driver connection parameters. Instead, it simply prepares the database abstraction for later use. The first actual connection to the underlying datastore will be established lazily, when it's needed for the first time. If you want to check right away that the database is available and accessible (for example, check that you can establish a network connection and log in), use `db.Ping()` to do that, and remember to check for errors:
+Perhaps counter-intuitively,sql.Open()` **does not establish any connections to the database**, nor does it validate driver connection parameters. Instead, it simply prepares the database abstraction for later use. The first actual connection to the underlying datastore will be established lazily, when it's needed for the first time. If you want to check right away that the database is available and accessible (for example, check that you can establish a network connection and log in), use `db.Ping()` to do that, and remember to check for errors:
 
 ```go
 	err = db.Ping()
@@ -275,7 +275,7 @@ We've documented several surprises and antipatterns throughout this tutorial, so
 * Failing to use prepared statements can lead to a lot of extra database activity.
 * Nulls cause annoying problems, which may show up only in production.
 
-There are also a couple of limitations in the `database/sql` package. The interface doesn't give you all-encompassing access to what's happening under the hood, for example; you can't control or even inspect the pool of connections.
+There are also a couple of limitations in the `database/sql` package. The interface doesn't give you all-encompassing access to what's happening under the hood. For example, you don't have much control over the pool of connections.
 
 Another limitation, which can be a surprise, is that you can't pass big unsigned integers as parameters to statements if their high bit is set:
 
