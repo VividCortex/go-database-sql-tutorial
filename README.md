@@ -284,3 +284,10 @@ _, err := db.Exec("INSERT INTO users(id) VALUES", math.MaxUint64)
 ```
 
 This will throw an error. Be careful if you use `uint64` values, as they may start out small and work without error, but increment over time and start throwing errors.
+
+Conclusion
+==========
+
+We hope you've found this tutorial helpful. Please send pull requests with any contributions!
+
+This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
