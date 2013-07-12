@@ -59,7 +59,7 @@ In the example shown, we're illustrating several things:
 3. You should (almost) always check and handle errors returned from all `database/sql` operations.
 4. It is idiomatic to `defer db.Close()` if the `sql.DB` should not have a lifetime beyond the scope of the function.
 
-Perhaps counter-intuitively,sql.Open()` **does not establish any connections to the database**, nor does it validate driver connection parameters. Instead, it simply prepares the database abstraction for later use. The first actual connection to the underlying datastore will be established lazily, when it's needed for the first time. If you want to check right away that the database is available and accessible (for example, check that you can establish a network connection and log in), use `db.Ping()` to do that, and remember to check for errors:
+Perhaps counter-intuitively, `sql.Open()` **does not establish any connections to the database**, nor does it validate driver connection parameters. Instead, it simply prepares the database abstraction for later use. The first actual connection to the underlying datastore will be established lazily, when it's needed for the first time. If you want to check right away that the database is available and accessible (for example, check that you can establish a network connection and log in), use `db.Ping()` to do that, and remember to check for errors:
 
 ```go
 	err = db.Ping()
