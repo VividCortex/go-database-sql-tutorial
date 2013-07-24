@@ -204,7 +204,7 @@ stmt.Close()
 
 Under the hood, `db.Query()` actually prepares, executes, and closes a prepared statement. That's three round-trips to the database. If you're not careful, you can triple the number of database interactions your application makes! Some drivers can avoid this in specific cases with an addition to `database/sql` in Go 1.1, but not all drivers are smart enough to do that. Caveat Emptor.
 
-It is important to close the parpared statement just as closing the rows.
+It is important to close the prepared statement just as closing the rows.
 
 Single-Row Queries
 ==================
