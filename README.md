@@ -287,6 +287,14 @@ _, err := db.Exec("INSERT INTO users(id) VALUES", math.MaxUint64)
 
 This will throw an error. Be careful if you use `uint64` values, as they may start out small and work without error, but increment over time and start throwing errors.
 
+Related Reading
+===============
+
+Here are some external sources of information we've found to be helpful.
+
+* http://golang.org/pkg/database/sql/
+* http://jmoiron.net/blog/gos-database-sql/
+
 Conclusion
 ==========
 
