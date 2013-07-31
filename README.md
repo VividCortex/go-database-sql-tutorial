@@ -1,6 +1,6 @@
 This is a tutorial on Go's database/sql package (http://golang.org/pkg/database/sql/).
 The package's documentation tells you what everything does, but it
-doesn't tell you how to use the package. We find ourselves wishing for a quick-reference and a "getting started"
+doesn't tell you how to use the package. At [VividCortex](https://vividcortex.com/), we find ourselves wishing for a quick-reference and a "getting started"
 orientation. This repo is an attempt to provide that. Contributions are welcome.
 
 Go's database/sql Package
