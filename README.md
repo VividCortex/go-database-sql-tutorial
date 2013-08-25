@@ -189,6 +189,7 @@ stmt, err := db.Prepare("select id, name from users where id = ?")
 if err != nil {
 	log.Fatal(err)
 }
+defer stmt.Close()
 rows, err := stmt.Query(1)
 if err != nil {
 	log.Fatal(err)
@@ -200,6 +201,8 @@ for rows.Next() {
 ```
 
 Under the hood, `db.Query()` actually prepares, executes, and closes a prepared statement. That's three round-trips to the database. If you're not careful, you can triple the number of database interactions your application makes! Some drivers can avoid this in specific cases with an addition to `database/sql` in Go 1.1, but not all drivers are smart enough to do that. Caveat Emptor.
+
+It is idiomatic to `defer stmt.Close()` if the prepared statement `stmt` should not have a lifetime beyond the scope of the function.
 
 Single-Row Queries
 ==================
@@ -272,7 +275,7 @@ Surprises, Antipatterns and Limitations
 We've documented several surprises and antipatterns throughout this tutorial, so please refer back to them if you didn't read them already:
 
 * Opening and closing databases can cause exhaustion of resources.
-* Failing to use `rows.Close()` can cause exhaustion of resources.
+* Failing to use `rows.Close()` or `stmt.Close()` can cause exhaustion of resources.
 * Using `Query()` for a statement that doesn't return rows is a bad idea.
 * Failing to use prepared statements can lead to a lot of extra database activity.
 * Nulls cause annoying problems, which may show up only in production.
