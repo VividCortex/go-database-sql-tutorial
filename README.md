@@ -300,6 +300,19 @@ SQL statements such as `BEGIN` and `COMMIT` in your SQL code. Bad things might r
 2. The state of the database could get out of sync with the state of the Go variables representing it.
 3. You could believe you're executing queries on a single connection, inside of a transaction, when in reality Go has created several connections for you invisibly and some statements aren't part of the transaction.
 
+Error Handling
+==============
+
+Go defines a special error constant, called `sql.ErrNoRows`, which is returned from `rows.Next()` when the
+result is empty. This needs to be handled as a special case in most circumstances. An empty result is often
+not considered an error by application code, and if you don't check whether an error is this special constant,
+you'll cause application-code errors you didn't expect.
+
+One might ask why an empty result set is considered an error. There's nothing erroneous about an empty set,
+after all. The reason is that the `QueryRow()` method needs to use this special-case in order to let the caller
+distinguish whether `QueryRow()` in fact found a row; without it, `Scan()` wouldn't do anything and you might
+not realize that your variable didn't get any value from the database after all.
+
 Surprises, Antipatterns and Limitations
 =======================================
 
@@ -310,6 +323,7 @@ We've documented several surprises and antipatterns throughout this tutorial, so
 * Using `Query()` for a statement that doesn't return rows is a bad idea.
 * Failing to use prepared statements can lead to a lot of extra database activity.
 * Nulls cause annoying problems, which may show up only in production.
+* There's a special error when there's an empty result set, which should be checked to avoid application bugs.
 
 There are also a couple of limitations in the `database/sql` package. The interface doesn't give you all-encompassing access to what's happening under the hood. For example, you don't have much control over the pool of connections.
 
