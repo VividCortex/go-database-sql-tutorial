@@ -306,7 +306,7 @@ SQL statements such as `BEGIN` and `COMMIT` in your SQL code. Bad things might r
 Error Handling
 ==============
 
-Go defines a special error constant, called `sql.ErrNoRows`, which is returned from `rows.Next()` when the
+Go defines a special error constant, called `sql.ErrNoRows`, which is returned from `QueryRow()` when the
 result is empty. This needs to be handled as a special case in most circumstances. An empty result is often
 not considered an error by application code, and if you don't check whether an error is this special constant,
 you'll cause application-code errors you didn't expect.
