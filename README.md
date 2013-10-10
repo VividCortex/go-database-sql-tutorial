@@ -360,6 +360,6 @@ Here are some external sources of information we've found to be helpful.
 Conclusion
 ==========
 
-We hope you've found this tutorial helpful. Please send pull requests with any contributions! We'd especially appreciate help with missing material, such as how to work with transactions.
+We hope you've found this tutorial helpful. Please send pull requests with any contributions! We'd especially appreciate help with missing material or errors.
 
 This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
