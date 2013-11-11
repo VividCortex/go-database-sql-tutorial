@@ -12,17 +12,16 @@ is a reference for the most common aspects of how to use it.
 
 The first thing to do is import the `database/sql` package, and a driver package. You generally shouldn't use the driver package directly, although some drivers encourage you to do so. (In our opinion, it's usually a bad idea.) Instead, your code should only refer to `database/sql`. This helps avoid making your code dependent on the driver, so that you can change the underlying driver (and thus the database you're accessing) without changing your code. It also forces you to use the Go idioms instead of ad-hoc idioms that a particular driver author may have provided.
 
-Keep in mind that it is only the typed API of `database/sql` that provides this abstraction.
-Potential differences remain in what query string syntax particular databases will accept.
-Perhaps the most surprising can be the need to use different syntax for placeholder parameters
-in prepared statements.
-For example, comparing MySQL and PostgreSQL:
+Keep in mind that only the `database/sql` API provides this abstraction.
+Specific databases and drivers can differ in behavior and/or syntax.
+One example is the syntax for placeholder parameters
+in prepared statements. For example, comparing MySQL, PostgreSQL, and Oracle:
 
 ```
-MySQL               PostgreSQL
+MySQL               PostgreSQL            Oracle
 
-WHERE col = ?       WHERE col = $1
-VALUES(?, ?, ?)     VALUES($1, $2, $3)
+WHERE col = ?       WHERE col = $1        WHERE col = :col
+VALUES(?, ?, ?)     VALUES($1, $2, $3)    VALUES(:val1, :val2, :val3)
 ```
 
 In this documentation, we'll use the excellent MySQL drivers at https://github.com/go-sql-driver/mysql for examples.
