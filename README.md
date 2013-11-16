@@ -348,6 +348,14 @@ _, err := db.Exec("INSERT INTO users(id) VALUES", math.MaxUint64)
 
 This will throw an error. Be careful if you use `uint64` values, as they may start out small and work without error, but increment over time and start throwing errors.
 
+Another possible surprise is the effects of doing things that change connection state, such as
+setting the current database with a `USE` statement. This will affect only the connection
+that you run it in. Unless you are in a transaction, other statements that you think are
+executed on that connection may actually run on different connections gotten from the pool, so they won't see
+the effects of such changes. Additionally, after you've changed the connection, it'll return
+to the pool and potentially pollute the state for some other code. This is one of the reasons
+why you should never issue BEGIN or COMMIT statements as SQL commands directly, too.
+
 Related Reading
 ===============
 
