@@ -179,7 +179,7 @@ cols, err := rows.Columns()				// Get the column names; remember to check err
 vals := make([]sql.RawBytes, len(cols)) // Allocate enough values
 ints := make([]interface{}, len(cols)) 	// Make a slice of []interface{}
 for i := range ints {
-	vals[i] = &ints[i] // Copy references into the slice
+	ints[i] = &vals[i] // Copy references into the slice
 }
 for rows.Next() {
 	err := rows.Scan(vals...)
