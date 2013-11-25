@@ -10,8 +10,8 @@ share: true
 
 The idiomatic way to use a SQL, or SQL-like, database in Go is through the
 `database/sql` package. It provides a lightweight interface to a row-oriented
-database. This documentation
-is a reference for the most common aspects of how to use it.
+database. This documentation is a reference for the most common aspects of how
+to use it.
 
 The first thing to do is import the `database/sql` package, and a driver
 package. You generally shouldn't use the driver package directly, although some
@@ -27,12 +27,10 @@ Specific databases and drivers can differ in behavior and/or syntax.  One
 example is the syntax for placeholder parameters in prepared statements. For
 example, comparing MySQL, PostgreSQL, and Oracle:
 
-```
-MySQL               PostgreSQL            Oracle
-
-WHERE col = ?       WHERE col = $1        WHERE col = :col
-VALUES(?, ?, ?)     VALUES($1, $2, $3)    VALUES(:val1, :val2, :val3)
-```
+	MySQL               PostgreSQL            Oracle
+	=====               ==========            ======
+	WHERE col = ?       WHERE col = $1        WHERE col = :col
+	VALUES(?, ?, ?)     VALUES($1, $2, $3)    VALUES(:val1, :val2, :val3)
 
 In this documentation, we'll use the excellent MySQL drivers at
 https://github.com/go-sql-driver/mysql for examples.
