@@ -25,16 +25,14 @@ These "connections" may be file handles, sockets, network connections, or other 
 
 To create a `sql.DB`, you use `sql.Open()`. This returns a `*sql.DB`:
 
-```go
-func main() {
-	db, err := sql.Open("mysql",
-		"user:password@tcp(127.0.0.1:3306)/hello")
-	if err != nil {
-		log.Fatal(err)
+	func main() {
+		db, err := sql.Open("mysql",
+			"user:password@tcp(127.0.0.1:3306)/hello")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
 	}
-	defer db.Close()
-}
-```
 
 In the example shown, we're illustrating several things:
 
@@ -45,12 +43,10 @@ In the example shown, we're illustrating several things:
 
 Perhaps counter-intuitively, `sql.Open()` **does not establish any connections to the database**, nor does it validate driver connection parameters. Instead, it simply prepares the database abstraction for later use. The first actual connection to the underlying datastore will be established lazily, when it's needed for the first time. If you want to check right away that the database is available and accessible (for example, check that you can establish a network connection and log in), use `db.Ping()` to do that, and remember to check for errors:
 
-```go
 	err = db.Ping()
 	if err != nil {
 		// do something here
 	}
-```
 
 Although it's idiomatic to `Close()` the database when you're finished with it, **the `sql.DB` object is designed to be long-lived.** Don't `Open()` and `Close()` databases frequently. Instead, create **one** `sql.DB` object for each distinct datastore you need to access, and keep it until the program is done accessing that datastore. Pass it around as needed, or make it available somehow globally, but keep it open. And don't `Open()` and `Close()` from a short-lived function. Instead, pass the `sql.DB` into that short-lived function as an argument.
 
