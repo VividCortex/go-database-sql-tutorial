@@ -32,17 +32,17 @@ example, comparing MySQL, PostgreSQL, and Oracle:
 	WHERE col = ?       WHERE col = $1        WHERE col = :col
 	VALUES(?, ?, ?)     VALUES($1, $2, $3)    VALUES(:val1, :val2, :val3)
 
-In this documentation, we'll use the excellent MySQL drivers at
-https://github.com/go-sql-driver/mysql for examples.
+In this documentation, we'll use the excellent
+[MySQL drivers](https://github.com/go-sql-driver/mysql) from @arnehormann and @julienschmidt for examples.
 
 Add the following to the top of your Go source file:
 
-```go
+{% highlight go %}
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 )
-```
+{% endhighlight %}
 
 Notice that we're loading the driver anonymously, aliasing its package qualifier
 to `_` so none of its exported names are visible to our code. Under the hood,
