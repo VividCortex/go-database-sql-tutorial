@@ -1,4 +1,4 @@
-1. [Go's database/sql Package](/overview)
+1. [Overview of Go's database/sql Package](/overview/)
 1. [Accessing the Database](/accessing)
 1. [Common Database Operations](/operations)
 1. [Fetching Data from the Database](/fetching)

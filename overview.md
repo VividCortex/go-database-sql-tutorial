@@ -1,6 +1,6 @@
 ---
 layout: page
-permalink: /overview
+permalink: /overview/
 title: Overview
 tags: 
 image:
