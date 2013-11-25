@@ -10,7 +10,9 @@ share: true
 
 
 Now that you've loaded the driver package, you're ready to create a database
-object, a `sql.DB`. The first thing you should know is that **a `sql.DB` isn't a
+object, a `sql.DB`.
+
+The first thing you should know is that **a `sql.DB` isn't a
 database connection**. It also doesn't map to any particular database software's
 notion of a "database" or "schema." It's an abstraction of the interface and
 existence of a database, which might be a local file, accessed through a network
