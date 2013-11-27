@@ -10,7 +10,6 @@ share: true
 
 Let's take a look at an example of how to query the database, working with results. We'll query the `users` table for a user whose `id` is 1, and print out the user's `id` and `name`:
 
-```go
 	var (
 		id int
 		name string
@@ -31,7 +30,6 @@ Let's take a look at an example of how to query the database, working with resul
 	if err != nil {
 		log.Fatal(err)
 	}
-```
 
 Here's what's happening in the above code:
 
