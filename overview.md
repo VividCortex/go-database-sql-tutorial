@@ -5,48 +5,33 @@ title: Overview
 tags: 
 image:
   feature: abstract-5.jpg
-share: true
+share: false
 ---
 
-The idiomatic way to use a SQL, or SQL-like, database in Go is through the
-`database/sql` package. It provides a lightweight interface to a row-oriented
-database. This documentation is a reference for the most common aspects of how
-to use it.
+To access databases in Go, you use a `sql.DB`. You use this type to create
+statements and transactions, execute queries, and fetch results.
 
-The first thing to do is import the `database/sql` package, and a driver
-package. You generally shouldn't use the driver package directly, although some
-drivers encourage you to do so. (In our opinion, it's usually a bad idea.)
-Instead, your code should only refer to `database/sql`. This helps avoid making
-your code dependent on the driver, so that you can change the underlying driver
-(and thus the database you're accessing) without changing your code. It also
-forces you to use the Go idioms instead of ad-hoc idioms that a particular
-driver author may have provided.
+The first thing you should know is that **a `sql.DB` isn't a database
+connection**. It also doesn't map to any particular database software's notion
+of a "database" or "schema." It's an abstraction of the interface and existence
+of a database, which might be as varied as a local file, accessed through a network
+connection, or in-memory and in-process.
 
-Keep in mind that only the `database/sql` API provides this abstraction.
-Specific databases and drivers can differ in behavior and/or syntax.  One
-example is the syntax for placeholder parameters in prepared statements. For
-example, comparing MySQL, PostgreSQL, and Oracle:
+The `sql.DB` performs some important tasks for you behind the scenes:
 
-	MySQL               PostgreSQL            Oracle
-	=====               ==========            ======
-	WHERE col = ?       WHERE col = $1        WHERE col = :col
-	VALUES(?, ?, ?)     VALUES($1, $2, $3)    VALUES(:val1, :val2, :val3)
+* It opens and closes connections to the actual underlying database, via the driver.
+* It manages a pool of connections as needed, which may be a variety of things as mentioned.
 
-In this documentation, we'll use the excellent
-[MySQL drivers](https://github.com/go-sql-driver/mysql) from @arnehormann and @julienschmidt for examples.
+The `sql.DB` abstraction is designed to keep you from worrying about how to
+manage concurrent access to the underlying datastore.  A connection is marked
+in-use when you use it to perform a task, and then returned to the available
+pool when it's not in use anymore. One consequence of this is that **if you fail
+to release connections back to the pool, you can cause `db.SQL` to open a lot of
+connections**, potentially running out of resources (too many connections, too
+many open file handles, lack of available network ports, etc). We'll discuss
+more about this later.
 
-Add the following to the top of your Go source file:
-
-	import (
-		"database/sql"
-		_ "github.com/go-sql-driver/mysql"
-	)
-
-Notice that we're loading the driver anonymously, aliasing its package qualifier
-to `_` so none of its exported names are visible to our code. Under the hood,
-the driver registers itself as being available to the `database/sql` package,
-but in general nothing else happens.
-
-Now you're ready to access a database.
+After creating a `sql.DB`, you can use it to query the database that it
+represents, as well as creating statements and transactions.
 
 {% include toc.md %}
