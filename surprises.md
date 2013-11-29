@@ -71,4 +71,44 @@ example, comparing MySQL, PostgreSQL, and Oracle:
 	WHERE col = ?       WHERE col = $1        WHERE col = :col
 	VALUES(?, ?, ?)     VALUES($1, $2, $3)    VALUES(:val1, :val2, :val3)
 
+Multiple Result Sets
+====================
+
+The Go driver doesn't support multiple result sets from a single query in any
+way, and there doesn't seem to be any plan to do that, although there is [a
+feature request](https://code.google.com/p/go/issues/detail?id=5171) for
+supporting bulk operations such as bulk copy.
+
+This means, among other things, that a stored procedure that returns multiple
+result sets will not work correctly.
+
+Invoking Stored Procedures
+==========================
+
+Invoking stored procedures is driver-specific, but in the MySQL driver it can't
+be done at present. It might seem that you'd be able to call a simple
+procedure that returns a single result set, by executing something like this:
+
+	err := db.QueryRow("CALL mydb.myprocedure").Scan(&result)
+
+In fact, this won't work. You'll get the following error: _Error
+1312: PROCEDURE mydb.myprocedure can't return a result set in the given
+context_. This is because MySQL expects the connection to be set into
+multi-statement mode, even for a single result, and the driver doesn't currently
+do that.
+
+Multiple Statement Support
+==========================
+
+The `database/sql` doesn't offer multiple-statement support. That means you
+can't do something like the following:
+
+	_, err := db.Exec("DELETE FROM tbl1; DELETE FROM tbl2")
+
+Similarly, there is no way to batch statements in a transaction. Each statement
+in a transaction must be executed serially, and the resources that it holds
+(such as a Result or Rows) must be closed so the underlying connection is free
+for another statement to use. This means that each statement in a transaction
+results in a separate set of network round-trips to the database.
+
 {% include toc.md %}
