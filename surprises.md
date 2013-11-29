@@ -15,7 +15,7 @@ libraries.
 Resource Exhaustion
 ===================
 
-As mentioned throughtout this site, if you don't use `database/sql` as intended,
+As mentioned throughout this site, if you don't use `database/sql` as intended,
 you can certainly cause trouble for yourself, usually by consuming some
 resources or preventing them from being reused effectively:
 
