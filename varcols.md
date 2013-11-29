@@ -46,7 +46,7 @@ If you don't know the columns or their types, you should use `sql.RawBytes`.
 	cols, err := rows.Columns() // Remember to check err afterwards
 	vals := make([]interface{}, len(cols))
 	for i, _ := range cols {
-		ints[i] = new(sql.RawBytes)
+		vals[i] = new(sql.RawBytes)
 	}
 	for rows.Next() {
 		err = rows.Scan(vals...)
