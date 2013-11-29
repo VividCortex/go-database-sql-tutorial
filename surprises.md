@@ -95,7 +95,8 @@ In fact, this won't work. You'll get the following error: _Error
 1312: PROCEDURE mydb.myprocedure can't return a result set in the given
 context_. This is because MySQL expects the connection to be set into
 multi-statement mode, even for a single result, and the driver doesn't currently
-do that.
+do that (though see [this
+issue](https://github.com/go-sql-driver/mysql/issues/66)).
 
 Multiple Statement Support
 ==========================
