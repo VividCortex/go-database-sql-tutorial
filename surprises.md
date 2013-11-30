@@ -2,7 +2,7 @@
 layout: page
 permalink: /surprises/
 title: Surprises, Antipatterns and Limitations
-tags: 
+tags:
 image:
   feature: abstract-5.jpg
 share: false
@@ -20,7 +20,7 @@ you can certainly cause trouble for yourself, usually by consuming some
 resources or preventing them from being reused effectively:
 
 * Opening and closing databases can cause exhaustion of resources.
-* Failing to use `rows.Close()` or `stmt.Close()` reserves connections from the pool.
+* Failing to read all rows or use `rows.Close()` reserves connections from the pool.
 * Using `Query()` for a statement that doesn't return rows will reserve a connection from the pool.
 * Failing to use prepared statements can lead to a lot of extra database activity.
 
