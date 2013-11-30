@@ -120,6 +120,9 @@ can triple the number of database interactions your application makes! Some
 drivers can avoid this in specific cases with an addition to `database/sql` in
 Go 1.1, but not all drivers are smart enough to do that. Caveat Emptor.
 
+Naturally prepared statements and the managment of prepared statements cost
+resources. You should take care to close statements when they are not used again.
+
 Single-Row Queries
 ==================
 
