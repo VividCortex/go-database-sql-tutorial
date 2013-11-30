@@ -2,7 +2,7 @@
 layout: page
 permalink: /retrieving/
 title: Retrieving Result Sets
-tags: 
+tags:
 image:
   feature: abstract-5.jpg
 share: false
@@ -26,7 +26,7 @@ Fetching Data from the Database
 Let's take a look at an example of how to query the database, working with
 results. We'll query the `users` table for a user whose `id` is 1, and print out
 the user's `id` and `name`.  We will assign results to variables, a row at a
-time, with `rows.Scan()`. 
+time, with `rows.Scan()`.
 
 	var (
 		id int
@@ -120,12 +120,8 @@ can triple the number of database interactions your application makes! Some
 drivers can avoid this in specific cases with an addition to `database/sql` in
 Go 1.1, but not all drivers are smart enough to do that. Caveat Emptor.
 
-Statements are like results: they claim a connection and should be closed. It's
-idiomatic to `defer stmt.Close()` if the prepared statement `stmt` should not
-have a lifetime beyond the scope of the function. If you don't, it'll reserve a
-connection from the pool, and can cause resource exhaustion. (Note that for
-efficiency you should always close statements, rows, transactions, etc as soon
-as you can.)
+Naturally prepared statements and the managment of prepared statements cost
+resources. You should take care to close statements when they are not used again.
 
 Single-Row Queries
 ==================
