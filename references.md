@@ -1,11 +1,6 @@
 ---
-layout: page
-permalink: /references/
+layout: article
 title: Related Reading and Resources
-tags: 
-image:
-  feature: abstract-5.jpg
-share: false
 ---
 
 Here are some external sources of information we've found to be helpful.
@@ -18,4 +13,4 @@ We hope you've found this website to be helpful. If you have any suggestions for
 improvements, please send pull requests or open an issue report at
 https://github.com/VividCortex/go-database-sql-tutorial.
 
-{% include toc.md %}
+**Previous: [Surprises, Antipatterns and Limitations](surprises.html)**

@@ -1,11 +1,6 @@
 ---
-layout: page
-permalink: /accessing/
+layout: article
 title: Accessing the Database
-tags: 
-image:
-  feature: abstract-5.jpg
-share: false
 ---
 
 Now that you've loaded the driver package, you're ready to create a database
@@ -60,4 +55,5 @@ remaining in `TIME_WAIT` status. Such problems are signs that you're not using
 
 Now it's time to use your `sql.DB` object.
 
-{% include toc.md %}
+**Previous: [Importing a Database Driver](importing.html)**
+**Next: [Retrieving Result Sets](retrieving.html)**

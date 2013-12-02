@@ -1,11 +1,6 @@
 ---
-layout: page
-permalink: /nulls/
+layout: article
 title: Working with NULLs
-tags: 
-image:
-  feature: abstract-5.jpg
-share: false
 ---
 
 Nullable columns are annoying and lead to a lot of ugly code. If you can, avoid
@@ -40,4 +35,5 @@ you need more convincing:
 If you need to define your own types to handle NULLs, you can copy the design of
 `sql.NullString` to achieve that.
 
-{% include toc.md %}
+**Previous: [Modifying Data and Using Transactions](modifying.html)**
+**Next: [Working with Unknown Columns](varcols.html)**

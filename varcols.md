@@ -1,11 +1,6 @@
 ---
-layout: page
-permalink: /varcols/
+layout: article
 title: Working with Unknown Columns
-tags: 
-image:
-  feature: abstract-5.jpg
-share: false
 ---
 
 The `Scan()` function requires you to pass exactly the right number of
@@ -55,4 +50,5 @@ If you don't know the columns or their types, you should use `sql.RawBytes`.
 		// to fetch the column into a typed variable.
 	}
 
-{% include toc.md %}
+**Previous: [Working with NULLs](nulls.html)**
+**Next: [The Connection Pool](connection-pool.html)**
