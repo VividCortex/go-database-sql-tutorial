@@ -1,11 +1,6 @@
 ---
-layout: page
-permalink: /retrieving/
+layout: article
 title: Retrieving Result Sets
-tags:
-image:
-  feature: abstract-5.jpg
-share: false
 ---
 
 There are several idiomatic operations to retrieve results from the datastore.
@@ -166,4 +161,5 @@ after all.
 You should not run into this error when you're not using `QueryRow()`. If you
 encounter this error elsewhere, you're doing something wrong.
 
-{% include toc.md %}
+**Previous: [Accessing the Database](accessing.html)**
+**Next: [Modifying Data and Using Transactions](modifying.html)**

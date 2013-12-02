@@ -1,0 +1,149 @@
+body {
+  padding: 0 0 40px 0;
+}
+
+.hero-unit {
+  background-color: #222;
+  margin-top:0px;
+  min-width: 940px;
+  color:#ccc;
+  padding-top:0px;
+  border-bottom:1px solid #375EAB;
+
+  -webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
+}
+
+.hero-img {
+  float:left;
+}
+
+.hero-text {
+  margin-left:200px;
+  padding-top:200px;
+  padding-bottom:150px;
+}
+
+/* Prefer horizontal scroll to wrapping code */
+pre {
+  white-space:pre;
+  word-wrap:normal;
+  word-break:normal;
+  overflow-x:auto;
+}
+
+#header {
+  position: absolute;
+  width: 100%;
+  min-width: 940px;
+  top: 0;
+  height: 60px;
+  border-bottom: 1px solid #322;
+  opacity:0.5;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px;
+}
+
+#header #wrapper {
+  width: 940px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#header #nav {
+  width: 900px;
+  height: 65px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#header #nav li {
+  margin: 0 40px;
+  font-size:28px;
+  line-height: 26px;
+  display: inline;
+}
+
+#header #nav li.active a {
+  font-weight:bold;
+  color:#eee !important;
+}
+
+a {
+  color: #0088cc;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #005580;
+  text-decoration: underline;
+}
+
+.container {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.navbar {
+  min-width: 1062px;
+}
+
+.navbar .container {
+  width: 940px;
+}
+
+.leftnav {
+  border-right: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.brand {
+  padding: 5px 20px 7px !important;
+}
+
+.navbar .nav > li > a {
+  padding-top: 29px !important;
+  padding-bottom: 5px !important;
+}
+
+.navbar-inner {
+  min-height: 0 !important;
+  height: 55px !important;
+  background: #FFF;
+}
+
+
+.nav-list > .active > a, .nav-list > .active > a:hover {
+  background-color: #999 !important;
+}
+
+.navbar .nav .active > a, .navbar .nav .active > a:hover {
+  color: #fff !important;
+  background-color: #999 !important;
+}
+
+.navbar .nav li a {
+  font-size: 16px;
+}
+
+code {
+  color: #a14;
+  background: 0;
+  border: 0;
+}
+
+a code {
+  color: #08C;
+}
+
+ul ul, ul ol, ol ol, ol ul, ul {
+  margin-bottom: 1em;
+}
+
+.improve-page {
+  float: right;
+  margin: 0 5px;
+  position: relative;
+}

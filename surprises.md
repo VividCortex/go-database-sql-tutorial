@@ -1,11 +1,6 @@
 ---
-layout: page
-permalink: /surprises/
+layout: article
 title: Surprises, Antipatterns and Limitations
-tags:
-image:
-  feature: abstract-5.jpg
-share: false
 ---
 
 Although `database/sql` is simple once you're accustomed to it, you might be
@@ -112,4 +107,5 @@ in a transaction must be executed serially, and the resources that it holds
 for another statement to use. This means that each statement in a transaction
 results in a separate set of network round-trips to the database.
 
-{% include toc.md %}
+**Previous: [The Connection Pool](connection-pool.html)**
+**Next: [Related Reading and Resources](references.html)**

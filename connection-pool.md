@@ -1,11 +1,6 @@
 ---
-layout: page
-permalink: /connection-pool/
+layout: article
 title: The Connection Pool
-tags:
-image:
-  feature: abstract-5.jpg
-share: false
 ---
 
 There is a basic connection pool in the `database/sql` package. There isn't a
@@ -18,4 +13,5 @@ useful to know:
 * In Go 1.2 or newer, you can use `db.SetMaxOpenConns(N)` to set the maximum of *total* open connections in the pool.
 * Connections are recycled rather fast. Setting a high number of idle connections with `db.SetMaxIdleConns(N)` can reduce this churn, and help keep connections around for reuse.
 
-{% include toc.md %}
+**Previous: [Working with Unknown Columns](varcols.html)**
+**Next: [Surprises, Antipatterns and Limitations](surprises.html)**

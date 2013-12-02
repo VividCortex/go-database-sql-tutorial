@@ -1,11 +1,6 @@
 ---
-layout: page
-permalink: /importing/
+layout: article
 title: Importing a Database Driver
-tags: 
-image:
-  feature: abstract-5.jpg
-share: false
 ---
 
 To use `database/sql` you'll need the package itself, as well as a driver for
@@ -37,4 +32,5 @@ but in general nothing else happens.
 
 Now you're ready to access a database.
 
-{% include toc.md %}
+**Previous: [Overview of Go's database/sql Package](overview.html)**
+**Next: [Accessing the Database](accessing.html)**

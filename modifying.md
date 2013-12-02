@@ -1,11 +1,6 @@
 ---
-layout: page
-permalink: /modifying/
+layout: article
 title: Modifying Data and Using Transactions
-tags:
-image:
-  feature: abstract-5.jpg
-share: false
 ---
 
 Now we're ready to see how to modify data and work with transactions. The
@@ -85,4 +80,5 @@ code. Bad things might result:
 * The state of the database could get out of sync with the state of the Go variables representing it.
 * You could believe you're executing queries on a single connection, inside of a transaction, when in reality Go has created several connections for you invisibly and some statements aren't part of the transaction.
 
-{% include toc.md %}
+**Previous: [Retrieving Result Sets](retrieving.html)**
+**Next: [Working with NULLs](nulls.html)**
