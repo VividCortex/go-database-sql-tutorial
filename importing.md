@@ -15,8 +15,8 @@ changes. It also forces you to use the Go idioms instead of ad-hoc idioms that a
 particular driver author may have provided.
 
 In this documentation, we'll use the excellent [MySQL
-drivers](https://github.com/go-sql-driver/mysql) from @arnehormann and
-@julienschmidt for examples.
+drivers](https://github.com/go-sql-driver/mysql) from @julienschmidt and @arnehormann
+ for examples.
 
 Add the following to the top of your Go source file:
 
