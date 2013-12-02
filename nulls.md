@@ -15,16 +15,18 @@ package to handle them, or define your own.
 There are types for nullable booleans, strings, integers, and floats. Here's how
 you use them:
 
-	for rows.Next() {
-		var s sql.NullString
-		err := rows.Scan(&s)
-		// check err
-		if s.Valid {
-		   // use s.String
-		} else {
-		   // NULL value
-		}
+```go
+for rows.Next() {
+	var s sql.NullString
+	err := rows.Scan(&s)
+	// check err
+	if s.Valid {
+	   // use s.String
+	} else {
+	   // NULL value
 	}
+}
+```
 
 Limitations of the nullable types, and reasons to avoid nullable columns in case
 you need more convincing:

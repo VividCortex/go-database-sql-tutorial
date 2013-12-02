@@ -28,26 +28,28 @@ results. We'll query the `users` table for a user whose `id` is 1, and print out
 the user's `id` and `name`.  We will assign results to variables, a row at a
 time, with `rows.Scan()`.
 
-	var (
-		id int
-		name string
-	)
-	rows, err := db.Query("select id, name from users where id = ?", 1)
+```go
+var (
+	id int
+	name string
+)
+rows, err := db.Query("select id, name from users where id = ?", 1)
+if err != nil {
+	log.Fatal(err)
+}
+defer rows.Close()
+for rows.Next() {
+	err := rows.Scan(&id, &name)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer rows.Close()
-	for rows.Next() {
-		err := rows.Scan(&id, &name)
-		if err != nil {
-			log.Fatal(err)
-		}
-		log.Println(id, name)
-	}
-	err = rows.Err()
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Println(id, name)
+}
+err = rows.Err()
+if err != nil {
+	log.Fatal(err)
+}
+```
 
 Here's what's happening in the above code:
 
@@ -100,19 +102,21 @@ In MySQL, the parameter placeholder is `?`, and in PostgreSQL it is `$N`, where
 N is a number. In Oracle placeholders begin with a colon and are named, like
 `:param1`. We'll use `?` because we're using MySQL as our example.
 
-	stmt, err := db.Prepare("select id, name from users where id = ?")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer stmt.Close()
-	rows, err := stmt.Query(1)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer rows.Close()
-	for rows.Next() {
-		// ...
-	}
+```go
+stmt, err := db.Prepare("select id, name from users where id = ?")
+if err != nil {
+	log.Fatal(err)
+}
+defer stmt.Close()
+rows, err := stmt.Query(1)
+if err != nil {
+	log.Fatal(err)
+}
+defer rows.Close()
+for rows.Next() {
+	// ...
+}
+```
 
 Under the hood, `db.Query()` actually prepares, executes, and closes a prepared
 statement. That's three round-trips to the database. If you're not careful, you
@@ -129,26 +133,30 @@ Single-Row Queries
 If a query returns at most one row, you can use a shortcut around some of the
 lengthy boilerplate code:
 
-	var name string
-	err = db.QueryRow("select name from users where id = ?", 1).Scan(&name)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(name)
+```go
+var name string
+err = db.QueryRow("select name from users where id = ?", 1).Scan(&name)
+if err != nil {
+	log.Fatal(err)
+}
+fmt.Println(name)
+```
 
 Errors from the query are deferred until `Scan()` is called, and then are
 returned from that. You can also call `QueryRow()` on a prepared statement:
 
-	stmt, err := db.Prepare("select id, name from users where id = ?")
-	if err != nil {
-		log.Fatal(err)
-	}
-	var name string
-	err = stmt.QueryRow(1).Scan(&name)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(name)
+```go
+stmt, err := db.Prepare("select id, name from users where id = ?")
+if err != nil {
+	log.Fatal(err)
+}
+var name string
+err = stmt.QueryRow(1).Scan(&name)
+if err != nil {
+	log.Fatal(err)
+}
+fmt.Println(name)
+```
 
 Go defines a special error constant, called `sql.ErrNoRows`, which is returned
 from `QueryRow()` when the result is empty. This needs to be handled as a
