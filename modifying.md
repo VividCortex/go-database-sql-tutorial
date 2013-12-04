@@ -15,6 +15,7 @@ Use `Exec()`, preferably with a prepared statement, to accomplish an `INSERT`,
 `UPDATE`, `DELETE`, or other statement that doesn't return rows. The following
 example shows how to insert a row and inspect metadata about the operation:
 
+<pre class="prettyprint lang-go">
 	stmt, err := db.Prepare("INSERT INTO users(name) VALUES(?)")
 	if err != nil {
 		log.Fatal(err)
@@ -32,6 +33,7 @@ example shows how to insert a row and inspect metadata about the operation:
 		log.Fatal(err)
 	}
 	log.Printf("ID = %d, affected = %d\n", lastId, rowCnt)
+</pre>
 
 Executing the statement produces a `sql.Result` that gives access to statement
 metadata: the last inserted ID and the number of rows affected.
