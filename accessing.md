@@ -9,14 +9,14 @@ object, a `sql.DB`.
 To create a `sql.DB`, you use `sql.Open()`. This returns a `*sql.DB`:
 
 <pre class="prettyprint lang-go">
-	func main() {
-		db, err := sql.Open("mysql",
-			"user:password@tcp(127.0.0.1:3306)/hello")
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer db.Close()
+func main() {
+	db, err := sql.Open("mysql",
+		"user:password@tcp(127.0.0.1:3306)/hello")
+	if err != nil {
+		log.Fatal(err)
 	}
+	defer db.Close()
+}
 </pre>
 
 In the example shown, we're illustrating several things:
@@ -36,10 +36,10 @@ connection and log in), use `db.Ping()` to do that, and remember to check for
 errors:
 
 <pre class="prettyprint lang-go">
-	err = db.Ping()
-	if err != nil {
-		// do something here
-	}
+err = db.Ping()
+if err != nil {
+	// do something here
+}
 </pre>
 
 Although it's idiomatic to `Close()` the database when you're finished with it,

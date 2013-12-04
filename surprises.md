@@ -26,7 +26,7 @@ Here's a surprising error. You can't pass big unsigned integers as parameters to
 statements if their high bit is set:
 
 <pre class="prettyprint lang-go">
-	_, err := db.Exec("INSERT INTO users(id) VALUES", math.MaxUint64)
+_, err := db.Exec("INSERT INTO users(id) VALUES", math.MaxUint64)
 </pre>
 
 This will throw an error. Be careful if you use `uint64` values, as they may
@@ -87,7 +87,7 @@ be done at present. It might seem that you'd be able to call a simple
 procedure that returns a single result set, by executing something like this:
 
 <pre class="prettyprint lang-go">
-	err := db.QueryRow("CALL mydb.myprocedure").Scan(&amp;result)
+err := db.QueryRow("CALL mydb.myprocedure").Scan(&amp;result)
 </pre>
 
 In fact, this won't work. You'll get the following error: _Error
@@ -104,7 +104,7 @@ The `database/sql` doesn't offer multiple-statement support. That means you
 can't do something like the following:
 
 <pre class="prettyprint lang-go">
-	_, err := db.Exec("DELETE FROM tbl1; DELETE FROM tbl2")
+_, err := db.Exec("DELETE FROM tbl1; DELETE FROM tbl2")
 </pre>
 
 Similarly, there is no way to batch statements in a transaction. Each statement

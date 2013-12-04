@@ -11,16 +11,16 @@ There are types for nullable booleans, strings, integers, and floats. Here's how
 you use them:
 
 <pre class="prettyprint lang-go">
-	for rows.Next() {
-		var s sql.NullString
-		err := rows.Scan(&amp;s)
-		// check err
-		if s.Valid {
-		   // use s.String
-		} else {
-		   // NULL value
-		}
+for rows.Next() {
+	var s sql.NullString
+	err := rows.Scan(&amp;s)
+	// check err
+	if s.Valid {
+	   // use s.String
+	} else {
+	   // NULL value
 	}
+}
 </pre>
 
 Limitations of the nullable types, and reasons to avoid nullable columns in case

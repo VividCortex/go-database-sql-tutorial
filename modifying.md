@@ -16,23 +16,23 @@ Use `Exec()`, preferably with a prepared statement, to accomplish an `INSERT`,
 example shows how to insert a row and inspect metadata about the operation:
 
 <pre class="prettyprint lang-go">
-	stmt, err := db.Prepare("INSERT INTO users(name) VALUES(?)")
-	if err != nil {
-		log.Fatal(err)
-	}
-	res, err := stmt.Exec("Dolly")
-	if err != nil {
-		log.Fatal(err)
-	}
-	lastId, err := res.LastInsertId()
-	if err != nil {
-		log.Fatal(err)
-	}
-	rowCnt, err := res.RowsAffected()
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Printf("ID = %d, affected = %d\n", lastId, rowCnt)
+stmt, err := db.Prepare("INSERT INTO users(name) VALUES(?)")
+if err != nil {
+	log.Fatal(err)
+}
+res, err := stmt.Exec("Dolly")
+if err != nil {
+	log.Fatal(err)
+}
+lastId, err := res.LastInsertId()
+if err != nil {
+	log.Fatal(err)
+}
+rowCnt, err := res.RowsAffected()
+if err != nil {
+	log.Fatal(err)
+}
+log.Printf("ID = %d, affected = %d\n", lastId, rowCnt)
 </pre>
 
 Executing the statement produces a `sql.Result` that gives access to statement
@@ -42,8 +42,10 @@ What if you don't care about the result? What if you just want to execute a
 statement and check if there were any errors, but ignore the result? Wouldn't
 the following two statements do the same thing?
 
-	_, err := db.Exec("DELETE FROM users")  // OK
-	_, err := db.Query("DELETE FROM users") // BAD
+<pre class="prettyprint lang-go">
+_, err := db.Exec("DELETE FROM users")  // OK
+_, err := db.Query("DELETE FROM users") // BAD
+</pre>
 
 The answer is no. They do **not** do the same thing, and **you should never use
 `Query()` like this.** The `Query()` will return a `sql.Rows`, which reserves a
