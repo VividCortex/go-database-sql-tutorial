@@ -13,6 +13,7 @@ with the correct number of values. For example, some forks of MySQL return
 different columns for the `SHOW PROCESSLIST` command, so you have to be prepared
 for that or you'll cause an error. Here's one way to do it; there are others:
 
+<pre class="prettyprint lang-go">
 	cols, err := rows.Columns()
 	if err != nil {
 		// handle the error
@@ -29,15 +30,17 @@ for that or you'll cause an error. Here's one way to do it; there are others:
 		}
 		if len(cols) == 11 {
 			// Percona Server
-		} else if len(cols) > 8 {
+		} else if len(cols) &gt; 8 {
 			// Handle this case
 		}
 		err = rows.Scan(dest...)
 		// Work with the values in dest
 	}
+</pre>
 
 If you don't know the columns or their types, you should use `sql.RawBytes`.
 
+<pre class="prettyprint lang-go">
 	cols, err := rows.Columns() // Remember to check err afterwards
 	vals := make([]interface{}, len(cols))
 	for i, _ := range cols {
@@ -49,6 +52,7 @@ If you don't know the columns or their types, you should use `sql.RawBytes`.
 		// and you can use type introspection and type assertions
 		// to fetch the column into a typed variable.
 	}
+</pre>
 
 **Previous: [Working with NULLs](nulls.html)**
 **Next: [The Connection Pool](connection-pool.html)**
