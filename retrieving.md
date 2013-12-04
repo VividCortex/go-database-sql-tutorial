@@ -34,7 +34,7 @@ time, with `rows.Scan()`.
 	}
 	defer rows.Close()
 	for rows.Next() {
-		err := rows.Scan(&id, &name)
+		err := rows.Scan(&amp;id, &amp;name)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -130,7 +130,7 @@ lengthy boilerplate code:
 
 <pre class="prettyprint lang-go">
 	var name string
-	err = db.QueryRow("select name from users where id = ?", 1).Scan(&name)
+	err = db.QueryRow("select name from users where id = ?", 1).Scan(&amp;name)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -146,7 +146,7 @@ returned from that. You can also call `QueryRow()` on a prepared statement:
 		log.Fatal(err)
 	}
 	var name string
-	err = stmt.QueryRow(1).Scan(&name)
+	err = stmt.QueryRow(1).Scan(&amp;name)
 	if err != nil {
 		log.Fatal(err)
 	}
