@@ -20,10 +20,12 @@ drivers](https://github.com/go-sql-driver/mysql) from @julienschmidt and @arneho
 
 Add the following to the top of your Go source file:
 
+<pre class="prettyprint lang-go">
 	import (
 		"database/sql"
 		_ "github.com/go-sql-driver/mysql"
 	)
+</pre>
 
 Notice that we're loading the driver anonymously, aliasing its package qualifier
 to `_` so none of its exported names are visible to our code. Under the hood,
