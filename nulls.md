@@ -10,6 +10,7 @@ package to handle them, or define your own.
 There are types for nullable booleans, strings, integers, and floats. Here's how
 you use them:
 
+<pre class="prettyprint lang-go">
 	for rows.Next() {
 		var s sql.NullString
 		err := rows.Scan(&s)
@@ -20,6 +21,7 @@ you use them:
 		   // NULL value
 		}
 	}
+</pre>
 
 Limitations of the nullable types, and reasons to avoid nullable columns in case
 you need more convincing:
