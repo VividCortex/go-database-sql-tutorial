@@ -8,6 +8,7 @@ object, a `sql.DB`.
 
 To create a `sql.DB`, you use `sql.Open()`. This returns a `*sql.DB`:
 
+<pre class="prettyprint lang-go">
 	func main() {
 		db, err := sql.Open("mysql",
 			"user:password@tcp(127.0.0.1:3306)/hello")
@@ -16,6 +17,7 @@ To create a `sql.DB`, you use `sql.Open()`. This returns a `*sql.DB`:
 		}
 		defer db.Close()
 	}
+</pre>
 
 In the example shown, we're illustrating several things:
 
@@ -33,10 +35,12 @@ available and accessible (for example, check that you can establish a network
 connection and log in), use `db.Ping()` to do that, and remember to check for
 errors:
 
+<pre class="prettyprint lang-go">
 	err = db.Ping()
 	if err != nil {
 		// do something here
 	}
+</pre>
 
 Although it's idiomatic to `Close()` the database when you're finished with it,
 **the `sql.DB` object is designed to be long-lived.** Don't `Open()` and
