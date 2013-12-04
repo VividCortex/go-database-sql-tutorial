@@ -23,6 +23,7 @@ results. We'll query the `users` table for a user whose `id` is 1, and print out
 the user's `id` and `name`.  We will assign results to variables, a row at a
 time, with `rows.Scan()`.
 
+<pre class="prettyprint lang-go">
 	var (
 		id int
 		name string
@@ -43,6 +44,7 @@ time, with `rows.Scan()`.
 	if err != nil {
 		log.Fatal(err)
 	}
+</pre>
 
 Here's what's happening in the above code:
 
@@ -95,6 +97,7 @@ In MySQL, the parameter placeholder is `?`, and in PostgreSQL it is `$N`, where
 N is a number. In Oracle placeholders begin with a colon and are named, like
 `:param1`. We'll use `?` because we're using MySQL as our example.
 
+<pre class="prettyprint lang-go">
 	stmt, err := db.Prepare("select id, name from users where id = ?")
 	if err != nil {
 		log.Fatal(err)
@@ -108,6 +111,7 @@ N is a number. In Oracle placeholders begin with a colon and are named, like
 	for rows.Next() {
 		// ...
 	}
+</pre>
 
 Under the hood, `db.Query()` actually prepares, executes, and closes a prepared
 statement. That's three round-trips to the database. If you're not careful, you
@@ -124,16 +128,19 @@ Single-Row Queries
 If a query returns at most one row, you can use a shortcut around some of the
 lengthy boilerplate code:
 
+<pre class="prettyprint lang-go">
 	var name string
 	err = db.QueryRow("select name from users where id = ?", 1).Scan(&name)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println(name)
+</pre>
 
 Errors from the query are deferred until `Scan()` is called, and then are
 returned from that. You can also call `QueryRow()` on a prepared statement:
 
+<pre class="prettyprint lang-go">
 	stmt, err := db.Prepare("select id, name from users where id = ?")
 	if err != nil {
 		log.Fatal(err)
@@ -144,6 +151,7 @@ returned from that. You can also call `QueryRow()` on a prepared statement:
 		log.Fatal(err)
 	}
 	fmt.Println(name)
+</pre>
 
 Go defines a special error constant, called `sql.ErrNoRows`, which is returned
 from `QueryRow()` when the result is empty. This needs to be handled as a
