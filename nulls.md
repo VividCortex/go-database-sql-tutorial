@@ -13,7 +13,7 @@ you use them:
 <pre class="prettyprint lang-go">
 	for rows.Next() {
 		var s sql.NullString
-		err := rows.Scan(&s)
+		err := rows.Scan(&amp;s)
 		// check err
 		if s.Valid {
 		   // use s.String
