@@ -1,10 +1,11 @@
 body {
   padding: 0 0 40px 0;
+  background-color: #fefefe;
 }
 
 .hero-unit {
   background-color: #222;
-  margin-top:0px;
+  margin-top: 0px;
   min-width: 940px;
   color:#ccc;
   padding-top:0px;
@@ -23,14 +24,6 @@ body {
   margin-left:200px;
   padding-top:200px;
   padding-bottom:150px;
-}
-
-/* Prefer horizontal scroll to wrapping code */
-pre {
-  white-space:pre;
-  word-wrap:normal;
-  word-break:normal;
-  overflow-x:auto;
 }
 
 #header {
@@ -114,6 +107,10 @@ a:hover {
   background: #FFF;
 }
 
+.nav-list {
+  padding-left: 10px;
+  padding-right: 5px;
+}
 
 .nav-list > .active > a, .nav-list > .active > a:hover {
   background-color: #999 !important;
@@ -124,8 +121,34 @@ a:hover {
   background-color: #999 !important;
 }
 
+.navbar .nav li {
+  line-height: 20px;
+}
+
 .navbar .nav li a {
   font-size: 16px;
+}
+
+p, li, h4, h5, h6, dt, dd, address {
+  line-height: 22px;
+}
+
+li {
+  margin: 2px;
+}
+
+/* Prefer horizontal scroll to wrapping code */
+pre {
+  white-space:pre;
+  word-wrap:normal;
+  word-break:normal;
+  overflow-x:auto;
+}
+
+pre.prettyprint {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 
 code {
