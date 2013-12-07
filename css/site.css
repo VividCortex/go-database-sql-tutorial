@@ -112,6 +112,10 @@ a:hover {
   padding-right: 5px;
 }
 
+.nav-list > li > a, .nav-list .nav-header {
+    margin-right: -5px;
+}
+
 .nav-list > .active > a, .nav-list > .active > a:hover {
   background-color: #999 !important;
 }
