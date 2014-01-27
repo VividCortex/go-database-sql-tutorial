@@ -53,7 +53,7 @@ database connection until the `sql.Rows` is closed.
 Since there might be unread data (e.g. more data rows), the connection can not
 be used. In the example above, the connection will *never* be released again.
 The garbage collector will eventually close the underlying `net.Conn` for you,
-but this might thake a long time. Moreover the database/sql package keeps
+but this might take a long time. Moreover the database/sql package keeps
 tracking the connection in its pool, hoping that you release it at some point,
 so that the connection can be used again.
 This anti-pattern is therefore a good way to run out of resources (too many
