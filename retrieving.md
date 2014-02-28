@@ -28,7 +28,7 @@ var (
 	id int
 	name string
 )
-rows, err := db.Query("select id, name from users where id = ?", 1)
+rows, err := db.Query("select id, name from users where name = ?", 1)
 if err != nil {
 	log.Fatal(err)
 }
@@ -98,7 +98,7 @@ N is a number. In Oracle placeholders begin with a colon and are named, like
 `:param1`. We'll use `?` because we're using MySQL as our example.
 
 <pre class="prettyprint lang-go">
-stmt, err := db.Prepare("select id, name from users where id = ?")
+stmt, err := db.Prepare("select id, name from users where name = ?")
 if err != nil {
 	log.Fatal(err)
 }
