@@ -141,7 +141,7 @@ Errors from the query are deferred until `Scan()` is called, and then are
 returned from that. You can also call `QueryRow()` on a prepared statement:
 
 <pre class="prettyprint lang-go">
-stmt, err := db.Prepare("SELECT id, name FROM users where id = ?")
+stmt, err := db.Prepare("SELECT id, name FROM users WHERE id = ?")
 if err != nil {
 	log.Fatal(err)
 }
