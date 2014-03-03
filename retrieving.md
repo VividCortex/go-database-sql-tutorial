@@ -28,7 +28,7 @@ var (
 	id int
 	name string
 )
-rows, err := db.Query("select id, name from users where id = ?", 1)
+rows, err := db.Query("SELECT id, name FROM users WHERE email LIKE CONCAT(‘%’,?,’%')", "gmail")
 if err != nil {
 	log.Fatal(err)
 }
@@ -98,12 +98,12 @@ N is a number. In Oracle placeholders begin with a colon and are named, like
 `:param1`. We'll use `?` because we're using MySQL as our example.
 
 <pre class="prettyprint lang-go">
-stmt, err := db.Prepare("select id, name from users where id = ?")
+stmt, err := db.Prepare("SELECT id, name FROM users WHERE email LIKE CONCAT(‘%’,?,’%')")
 if err != nil {
 	log.Fatal(err)
 }
 defer stmt.Close()
-rows, err := stmt.Query(1)
+rows, err := stmt.Query("gmail")
 if err != nil {
 	log.Fatal(err)
 }
@@ -130,7 +130,7 @@ lengthy boilerplate code:
 
 <pre class="prettyprint lang-go">
 var name string
-err = db.QueryRow("select name from users where id = ?", 1).Scan(&amp;name)
+err = db.QueryRow("SELECT name FROM users WHERE id = ?", 1).Scan(&amp;name)
 if err != nil {
 	log.Fatal(err)
 }
@@ -141,7 +141,7 @@ Errors from the query are deferred until `Scan()` is called, and then are
 returned from that. You can also call `QueryRow()` on a prepared statement:
 
 <pre class="prettyprint lang-go">
-stmt, err := db.Prepare("select id, name from users where id = ?")
+stmt, err := db.Prepare("SELECT id, name FROM users WHERE id = ?")
 if err != nil {
 	log.Fatal(err)
 }
