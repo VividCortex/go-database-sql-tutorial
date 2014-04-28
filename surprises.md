@@ -100,17 +100,23 @@ issue](https://github.com/go-sql-driver/mysql/issues/66)).
 Multiple Statement Support
 ==========================
 
-The `database/sql` doesn't offer multiple-statement support. That means you
-can't do something like the following:
+The `database/sql` doesn't explicitly have multiple statement support, which means
+that the behavior of this is backend dependent:
 
 <pre class="prettyprint lang-go">
 _, err := db.Exec("DELETE FROM tbl1; DELETE FROM tbl2")
 </pre>
 
+The server is allowed to interpret this however it wants, which can include
+returning an error, executing only the first statement, or executing both.
+
 Similarly, there is no way to batch statements in a transaction. Each statement
-in a transaction must be executed serially, and the resources that it holds
-(such as a Result or Rows) must be closed so the underlying connection is free
-for another statement to use. This means that each statement in a transaction
+in a transaction must be executed serially, and the resources in the results,
+such as a Row or Rows, must be scanned or closed so the underlying connection is free
+for the next statement to use.  Since transactions are connection state and bind
+to a single database connection, you may wind up with a corrupted connection if
+you attempt to perform another statement before the first has released that resource
+and cleaned up after itself.  This also means that each statement in a transaction
 results in a separate set of network round-trips to the database.
 
 **Previous: [The Connection Pool](connection-pool.html)**
