@@ -94,8 +94,9 @@ execute the statement.  This is much better than concatenating strings, for all
 the usual reasons (avoiding SQL injection attacks, for example).
 
 In MySQL, the parameter placeholder is `?`, and in PostgreSQL it is `$N`, where
-N is a number. In Oracle placeholders begin with a colon and are named, like
-`:param1`. We'll use `?` because we're using MySQL as our example.
+N is a number. SQLite accepts either of these.  In Oracle placeholders begin with
+a colon and are named, like `:param1`. We'll use `?` because we're using MySQL
+as our example.
 
 <pre class="prettyprint lang-go">
 stmt, err := db.Prepare("select id, name from users where id = ?")
