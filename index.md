@@ -14,4 +14,4 @@ wishing for a quick-reference and a "getting started" orientation that tells
 stories instead of listing facts. Contributions are welcome; please send pull
 requests [here](https://github.com/VividCortex/go-database-sql-tutorial).
 
-**Start: [Overview of Go's database/sql Package](overview.html)**
+**Start: [Overview of Go's database/sql Package](overview.md)**
