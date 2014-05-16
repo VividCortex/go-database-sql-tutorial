@@ -34,5 +34,5 @@ but in general nothing else happens.
 
 Now you're ready to access a database.
 
-**Previous: [Overview of Go's database/sql Package](overview.html)**
-**Next: [Accessing the Database](accessing.html)**
+**Previous: [Overview of Go's database/sql Package](overview.md)**
+**Next: [Accessing the Database](accessing.md)**
