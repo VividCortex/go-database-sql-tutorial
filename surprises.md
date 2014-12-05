@@ -123,7 +123,7 @@ Prepared Statements in Transactions
 ===================================
 
 Caution must be exercised when working with prepared statements in
-transactions.  Consider the following example:
+transactions. Consider the following example:
 
 <pre class="prettyprint lang-go">
 tx, err := db.Begin()
@@ -156,6 +156,9 @@ underlying connection, rendering the connection state inconsistent.
 `database/sql` does not guard you against this particular behaviour.  Instead,
 you should make sure the statement is always closed before the transaction is
 committed or rolled back.
+
+This is a [known issue](https://code.google.com/p/go/issues/detail?id=4459) that
+will probably be fixed in Go 1.4 by [CR 131650043](https://codereview.appspot.com/131650043).
 
 **Previous: [The Connection Pool](connection-pool.html)**
 **Next: [Related Reading and Resources](references.html)**

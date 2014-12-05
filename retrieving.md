@@ -112,6 +112,9 @@ defer rows.Close()
 for rows.Next() {
 	// ...
 }
+if err = rows.Err(); err != nil {
+	log.Fatal(err)
+}
 </pre>
 
 Under the hood, `db.Query()` actually prepares, executes, and closes a prepared

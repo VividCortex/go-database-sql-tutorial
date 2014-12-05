@@ -74,8 +74,10 @@ can call on the database itself, such as `Query()` and so forth.
 
 Prepared statements that are created in a transaction are bound exclusively to
 that transaction, and can't be used outside of it. Likewise, prepared statements
-created only on a database handle can't be used within a transaction. In order to 
-use a Prepared statement prepared outside the transaction, use `Tx.Stmt()`.
+created only on a database handle can't be used within a transaction. To 
+use a prepared statement prepared outside the transaction, use `Tx.Stmt()`,
+which will create a new transaction-specific statement from the one prepared
+outside the transaction.
 
 You should not mingle the use of transaction-related functions such as `Begin()`
 and `Commit()` with SQL statements such as `BEGIN` and `COMMIT` in your SQL
