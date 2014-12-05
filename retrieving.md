@@ -61,23 +61,28 @@ shown.
 
 A couple parts of this are easy to get wrong, and can have bad consequences.
 
-First, as long as there's an open result set (represented by `rows`), the
-underlying connection is busy and can't be used for any other query. That means
-it's not available in the connection pool. If you iterate over all of the rows
-with `rows.Next()`, eventually you'll read the last row, and `rows.Next()` will
-encounter an internal EOF error and call `rows.Close()` for you. But if for some
-reason you exit that loop -- an early return, or so on -- then the
-`rows` doesn't get closed, and the connection remains open. (It is auto-closed
-if `rows.Next()` returns false due to an error, though). This is an easy way
-to run out of resources. This is why **you should always `defer rows.Close()`**,
-even if you also call it explicitly at the end of the loop, which isn't a bad
-idea. `rows.Close()` is a harmless no-op if it's already closed, so you can call
-it multiple times. Notice, however, that we check the error first, and only do
-`rows.Close()` if there isn't an error, in order to avoid a runtime panic.
-
-Second, you should always check for an error at the end of the `for rows.Next()`
-loop. If there's an error during the loop, you need to know about it. Don't just
-assume that the loop iterates until you've processed all the rows.
+* You should always check for an error at the end of the `for rows.Next()`
+  loop. If there's an error during the loop, you need to know about it. Don't
+  just assume that the loop iterates until you've processed all the rows.
+* Second, as long as there's an open result set (represented by `rows`), the
+  underlying connection is busy and can't be used for any other query. That
+  means it's not available in the connection pool. If you iterate over all of
+  the rows with `rows.Next()`, eventually you'll read the last row, and
+  `rows.Next()` will encounter an internal EOF error and call `rows.Close()` for
+  you. But if for some reason you exit that loop -- an early return, or so on --
+  then the `rows` doesn't get closed, and the connection remains open. (It is
+  auto-closed if `rows.Next()` returns false due to an error, though). This is
+  an easy way to run out of resources.
+* `rows.Close()` is a harmless no-op if it's already closed, so you can call
+  it multiple times. Notice, however, that we check the error first, and only
+  call `rows.Close()` if there isn't an error, in order to avoid a runtime panic.
+* You should **always `defer rows.Close()`**, even if you also call `rows.Close()`
+  explicitly at the end of the loop, which isn't a bad idea. 
+* Don't `defer` within a loop. A deferred statement doesn't get executed until
+  the function exits, so a long-running function shouldn't use it. If you do,
+  you will slowly accumulate memory. If you are repeatedly querying and
+  consuming result sets within a loop, you should explicitly call `rows.Close()`
+  when you're done with each result, and not use `defer`.
 
 How Scan() Works
 ================
