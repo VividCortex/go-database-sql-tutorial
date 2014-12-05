@@ -119,5 +119,43 @@ you attempt to perform another statement before the first has released that reso
 and cleaned up after itself.  This also means that each statement in a transaction
 results in a separate set of network round-trips to the database.
 
+Prepared Statements in Transactions
+===================================
+
+Caution must be exercised when working with prepared statements in
+transactions.  Consider the following example:
+
+<pre class="prettyprint lang-go">
+tx, err := db.Begin()
+if err != nil {
+	log.Fatal(err)
+}
+defer tx.Rollback()
+stmt, err := tx.Prepare("INSERT INTO foo VALUES (?)")
+if err != nil {
+	log.Fatal(err)
+}
+defer stmt.Close() // danger!
+for i := 0; i < 10; i++ {
+	_, err = stmt.Exec(i)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+err = tx.Commit()
+if err != nil {
+	log.Fatal(err)
+}
+// stmt.Close() runs here!
+</pre>
+
+Closing a `*sql.Tx` releases the connection associated with it back into the
+pool, but the deferred call to Close on the prepared statement is executed
+**after** that has happened, which could lead to concurrent access to the
+underlying connection, rendering the connection state inconsistent.
+`database/sql` does not guard you against this particular behaviour.  Instead,
+you should make sure the statement is always closed before the transaction is
+committed or rolled back.
+
 **Previous: [The Connection Pool](connection-pool.html)**
 **Next: [Related Reading and Resources](references.html)**
