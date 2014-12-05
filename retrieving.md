@@ -54,6 +54,11 @@ Here's what's happening in the above code:
 4. We read the columns in each row into variables with `rows.Scan()`.
 5. We check for errors after we're done iterating over the rows.
 
+This is pretty much the only way to do it in Go. You can't
+get a row as a map, for example. That's because everything is strongly typed.
+You need to create variables of the correct type and pass pointers to them, as
+shown.
+
 A couple parts of this are easy to get wrong, and can have bad consequences.
 
 First, as long as there's an open result set (represented by `rows`), the
@@ -72,17 +77,6 @@ it multiple times. Notice, however, that we check the error first, and only do
 Second, you should always check for an error at the end of the `for rows.Next()`
 loop. If there's an error during the loop, you need to know about it. Don't just
 assume that the loop iterates until you've processed all the rows.
-
-The error returned by `rows.Close()` is the only exception to the general rule
-that it's best to capture and check for errors in all database operations. If
-`rows.Close()` throws an error, it's unclear what is the right thing to do.
-Logging the error message or panicing might be the only sensible thing to do,
-and if that's not sensible, then perhaps you should just ignore the error.
-
-This is pretty much the only way to do it in Go. You can't
-get a row as a map, for example. That's because everything is strongly typed.
-You need to create variables of the correct type and pass pointers to them, as
-shown.
 
 Preparing Queries
 =================
@@ -156,22 +150,6 @@ if err != nil {
 }
 fmt.Println(name)
 </pre>
-
-Go defines a special error constant, called `sql.ErrNoRows`, which is returned
-from `QueryRow()` when the result is empty. This needs to be handled as a
-special case in most circumstances. An empty result is often not considered an
-error by application code, and if you don't check whether an error is this
-special constant, you'll cause application-code errors you didn't expect.
-
-One might ask why an empty result set is considered an error. There's nothing
-erroneous about an empty set. The reason is that the `QueryRow()` method needs
-to use this special-case in order to let the caller distinguish whether
-`QueryRow()` in fact found a row; without it, `Scan()` wouldn't do anything and
-you might not realize that your variable didn't get any value from the database
-after all.
-
-You should not run into this error when you're not using `QueryRow()`. If you
-encounter this error elsewhere, you're doing something wrong.
 
 **Previous: [Accessing the Database](accessing.html)**
 **Next: [Modifying Data and Using Transactions](modifying.html)**

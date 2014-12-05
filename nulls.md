@@ -37,5 +37,5 @@ you need more convincing:
 If you need to define your own types to handle NULLs, you can copy the design of
 `sql.NullString` to achieve that.
 
-**Previous: [Modifying Data and Using Transactions](modifying.html)**
+**Previous: [Handling Errors](errors.html)**
 **Next: [Working with Unknown Columns](varcols.html)**

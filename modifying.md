@@ -88,4 +88,4 @@ code. Bad things might result:
 * You could believe you're executing queries on a single connection, inside of a transaction, when in reality Go has created several connections for you invisibly and some statements aren't part of the transaction.
 
 **Previous: [Retrieving Result Sets](retrieving.html)**
-**Next: [Working with NULLs](nulls.html)**
+**Next: [Handling Errors](errors.html)**
