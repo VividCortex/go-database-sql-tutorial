@@ -65,9 +65,10 @@ First, as long as there's an open result set (represented by `rows`), the
 underlying connection is busy and can't be used for any other query. That means
 it's not available in the connection pool. If you iterate over all of the rows
 with `rows.Next()`, eventually you'll read the last row, and `rows.Next()` will
-encounter an internal EOF error and call `rows.Close()` for you. But if for any
-reason you exit that loop -- an error, an early return, or so on -- then the
-`rows` doesn't get closed, and the connection remains open. This is an easy way
+encounter an internal EOF error and call `rows.Close()` for you. But if for some
+reason you exit that loop -- an early return, or so on -- then the
+`rows` doesn't get closed, and the connection remains open. (It is auto-closed
+if `rows.Next()` returns false due to an error, though). This is an easy way
 to run out of resources. This is why **you should always `defer rows.Close()`**,
 even if you also call it explicitly at the end of the loop, which isn't a bad
 idea. `rows.Close()` is a harmless no-op if it's already closed, so you can call
