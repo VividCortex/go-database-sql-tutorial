@@ -129,5 +129,23 @@ if driverErr, ok := err.(*mysql.MySQLError); ok {
 }
 </pre>
 
+Handling Connection Errors
+==========================
+
+What if your connection to the database is dropped, killed, or has an error?
+
+You don't need to implement any logic to retry failed statements when this
+happens. As part of the [connection pooling](connection-pool.html) in
+`database/sql`, handling failed connections is built-in. If you execute a query
+or other statement and the underlying connection has a failure, Go will reopen a
+new connection (or just get another from the connection pool) and retry, up to
+10 times.
+
+There can be some unintended consequences, however. Some types of errors may be
+retried when other error conditions happen. This might also be driver-specific.
+One example that has occurred with the MySQL driver is that using `KILL` to
+cancel an undesired statement (such as a long-running query) results in the
+statement being retried up to 10 times.
+
 **Previous: [Modifying Data and Using Transactions](modifying.html)**
 **Next: [Working with NULLs](nulls.html)**
