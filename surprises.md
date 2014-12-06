@@ -17,7 +17,7 @@ resources or preventing them from being reused effectively:
 * Opening and closing databases can cause exhaustion of resources.
 * Failing to read all rows or use `rows.Close()` reserves connections from the pool.
 * Using `Query()` for a statement that doesn't return rows will reserve a connection from the pool.
-* Failing to use prepared statements can lead to a lot of extra database activity.
+* Failing to be aware of how [prepared statements](prepared.html) work can lead to a lot of extra database activity.
 
 Large uint64 Values
 ===================
@@ -59,14 +59,8 @@ Database-Specific Syntax
 ========================
 
 The `database/sql` API provides an abstraction of a row-oriented database, but
-specific databases and drivers can differ in behavior and/or syntax.  One
-example is the syntax for placeholder parameters in prepared statements. For
-example, comparing MySQL, PostgreSQL, and Oracle:
-
-	MySQL               PostgreSQL            Oracle
-	=====               ==========            ======
-	WHERE col = ?       WHERE col = $1        WHERE col = :col
-	VALUES(?, ?, ?)     VALUES($1, $2, $3)    VALUES(:val1, :val2, :val3)
+specific databases and drivers can differ in behavior and/or syntax, such as
+[prepared statement placeholders](prepared.html).
 
 Multiple Result Sets
 ====================
@@ -113,52 +107,38 @@ returning an error, executing only the first statement, or executing both.
 Similarly, there is no way to batch statements in a transaction. Each statement
 in a transaction must be executed serially, and the resources in the results,
 such as a Row or Rows, must be scanned or closed so the underlying connection is free
-for the next statement to use.  Since transactions are connection state and bind
-to a single database connection, you may wind up with a corrupted connection if
-you attempt to perform another statement before the first has released that resource
-and cleaned up after itself.  This also means that each statement in a transaction
-results in a separate set of network round-trips to the database.
+for the next statement to use. This differs from the usual behavior when you're
+not working with a transaction. In that scenario, it is perfectly possible to
+execute a query, loop over the rows, and within the loop make a query to the
+database (which will happen on a new connection):
 
-Prepared Statements in Transactions
-===================================
+<pre class="prettyprint lang-go">
+rows, err := db.Query("select * from tbl1") // Uses connection 1
+for rows.Next() {
+	err = rows.Scan(&myvariable)
+	// The following line will NOT use connection 1, which is already in-use
+   db.Query("select * from tbl2 where id = ?", myvariable)
+}
+</pre>
 
-Caution must be exercised when working with prepared statements in
-transactions. Consider the following example:
+But transactions are bound to
+just one connection, so this isn't possible with a transaction:
 
 <pre class="prettyprint lang-go">
 tx, err := db.Begin()
-if err != nil {
-	log.Fatal(err)
+rows, err := tx.Query("select * from tbl1") // Uses tx's connection
+for rows.Next() {
+	err = rows.Scan(&myvariable)
+	// ERROR! tx's connection is already busy!
+   tx.Query("select * from tbl2 where id = ?", myvariable)
 }
-defer tx.Rollback()
-stmt, err := tx.Prepare("INSERT INTO foo VALUES (?)")
-if err != nil {
-	log.Fatal(err)
-}
-defer stmt.Close() // danger!
-for i := 0; i < 10; i++ {
-	_, err = stmt.Exec(i)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-err = tx.Commit()
-if err != nil {
-	log.Fatal(err)
-}
-// stmt.Close() runs here!
 </pre>
 
-Closing a `*sql.Tx` releases the connection associated with it back into the
-pool, but the deferred call to Close on the prepared statement is executed
-**after** that has happened, which could lead to concurrent access to the
-underlying connection, rendering the connection state inconsistent.
-`database/sql` does not guard you against this particular behaviour.  Instead,
-you should make sure the statement is always closed before the transaction is
-committed or rolled back.
-
-This is a [known issue](https://code.google.com/p/go/issues/detail?id=4459) that
-will probably be fixed in Go 1.4 by [CR 131650043](https://codereview.appspot.com/131650043).
+Go doesn't stop you from trying, though. For that reason, you may wind up with a
+corrupted connection if you attempt to perform another statement before the
+first has released its resources and cleaned up after itself.  This also means
+that each statement in a transaction results in a separate set of network
+round-trips to the database.
 
 **Previous: [The Connection Pool](connection-pool.html)**
 **Next: [Related Reading and Resources](references.html)**

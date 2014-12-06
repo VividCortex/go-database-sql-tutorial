@@ -147,5 +147,5 @@ One example that has occurred with the MySQL driver is that using `KILL` to
 cancel an undesired statement (such as a long-running query) results in the
 statement being retried up to 10 times.
 
-**Previous: [Modifying Data and Using Transactions](modifying.html)**
+**Previous: [Using Prepared Statements](prepared.html)**
 **Next: [Working with NULLs](nulls.html)**

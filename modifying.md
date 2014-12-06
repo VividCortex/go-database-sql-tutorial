@@ -73,11 +73,7 @@ with that transaction. The methods on the `Tx` map one-for-one to methods you
 can call on the database itself, such as `Query()` and so forth.
 
 Prepared statements that are created in a transaction are bound exclusively to
-that transaction, and can't be used outside of it. Likewise, prepared statements
-created only on a database handle can't be used within a transaction. To 
-use a prepared statement prepared outside the transaction, use `Tx.Stmt()`,
-which will create a new transaction-specific statement from the one prepared
-outside the transaction.
+that transaction. See [prepared statements](prepared.html) for more.
 
 You should not mingle the use of transaction-related functions such as `Begin()`
 and `Commit()` with SQL statements such as `BEGIN` and `COMMIT` in your SQL
@@ -104,4 +100,4 @@ If you need to do any of these things, you need to bind your activity to a
 single connection, and the only way to do that in Go is to use a `Tx`.
 
 **Previous: [Retrieving Result Sets](retrieving.html)**
-**Next: [Handling Errors](errors.html)**
+**Next: [Using Prepared Statements](prepared.html)**

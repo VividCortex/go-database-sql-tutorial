@@ -141,36 +141,8 @@ if err = rows.Err(); err != nil {
 Under the hood, `db.Query()` actually prepares, executes, and closes a prepared
 statement. That's three round-trips to the database. If you're not careful, you
 can triple the number of database interactions your application makes! Some
-drivers can avoid this in specific cases with an addition to `database/sql` in
-Go 1.1, but not all drivers are smart enough to do that. Caveat Emptor.
-
-Naturally prepared statements and the management of prepared statements cost
-resources. You should take care to close statements when they are not used again.
-
-Avoiding Prepared Statements
-============================
-
-Go creates prepared statements for you under the covers. A simple
-`db.Query(sql, param1, param2)`, for example, works by preparing the sql, then
-executing it with the parameters and finally closing the statement.
-
-Sometimes a prepared statement is not what you want, however. There might be
-several reasons for this:
-
-1. The database doesn't support prepared statements. When using the MySQL
-	driver, for example, you can connect to MemSQL and Sphinx, because they
-	support the MySQL wire protocol. But they don't support the "binary" protocol
-	that includes prepared statements, so they can fail in confusing ways.
-2. The statements aren't reused enough to make them worthwhile, and security
-	issues are handled in other ways, so performance overhead is undesired. An
-	example of this can be seen at the
-	[VividCortex blog](https://vividcortex.com/blog/2014/11/19/analyzing-prepared-statement-performance-with-vividcortex/).
-
-If you don't want to use a prepared statement, you need to use `fmt.Sprint()` or
-similar to assemble the SQL, and pass this as the only argument to `db.Query()`
-or `db.QueryRow()`. And your driver needs to support plaintext query execution,
-which is added in Go 1.1 via the `Execer` interface,
-[documented here](http://golang.org/pkg/database/sql/driver/#Execer).
+drivers can avoid this in specific cases,
+but not all drivers do. See [prepared statements](prepared.html) for more.
 
 Single-Row Queries
 ==================
