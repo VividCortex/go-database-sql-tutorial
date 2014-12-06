@@ -54,35 +54,56 @@ Here's what's happening in the above code:
 4. We read the columns in each row into variables with `rows.Scan()`.
 5. We check for errors after we're done iterating over the rows.
 
-A couple parts of this are easy to get wrong, and can have bad consequences.
-
-First, as long as there's an open result set (represented by `rows`), the
-underlying connection is busy and can't be used for any other query. That means
-it's not available in the connection pool. If you iterate over all of the rows
-with `rows.Next()`, eventually you'll read the last row, and `rows.Next()` will
-encounter an internal EOF error and call `rows.Close()` for you. But if for any
-reason you exit that loop -- an error, an early return, or so on -- then the
-`rows` doesn't get closed, and the connection remains open. This is an easy way
-to run out of resources. This is why **you should always `defer rows.Close()`**,
-even if you also call it explicitly at the end of the loop, which isn't a bad
-idea. `rows.Close()` is a harmless no-op if it's already closed, so you can call
-it multiple times. Notice, however, that we check the error first, and only do
-`rows.Close()` if there isn't an error, in order to avoid a runtime panic.
-
-Second, you should always check for an error at the end of the `for rows.Next()`
-loop. If there's an error during the loop, you need to know about it. Don't just
-assume that the loop iterates until you've processed all the rows.
-
-The error returned by `rows.Close()` is the only exception to the general rule
-that it's best to capture and check for errors in all database operations. If
-`rows.Close()` throws an error, it's unclear what is the right thing to do.
-Logging the error message or panicing might be the only sensible thing to do,
-and if that's not sensible, then perhaps you should just ignore the error.
-
 This is pretty much the only way to do it in Go. You can't
 get a row as a map, for example. That's because everything is strongly typed.
 You need to create variables of the correct type and pass pointers to them, as
 shown.
+
+A couple parts of this are easy to get wrong, and can have bad consequences.
+
+* You should always check for an error at the end of the `for rows.Next()`
+  loop. If there's an error during the loop, you need to know about it. Don't
+  just assume that the loop iterates until you've processed all the rows.
+* Second, as long as there's an open result set (represented by `rows`), the
+  underlying connection is busy and can't be used for any other query. That
+  means it's not available in the connection pool. If you iterate over all of
+  the rows with `rows.Next()`, eventually you'll read the last row, and
+  `rows.Next()` will encounter an internal EOF error and call `rows.Close()` for
+  you. But if for some reason you exit that loop -- an early return, or so on --
+  then the `rows` doesn't get closed, and the connection remains open. (It is
+  auto-closed if `rows.Next()` returns false due to an error, though). This is
+  an easy way to run out of resources.
+* `rows.Close()` is a harmless no-op if it's already closed, so you can call
+  it multiple times. Notice, however, that we check the error first, and only
+  call `rows.Close()` if there isn't an error, in order to avoid a runtime panic.
+* You should **always `defer rows.Close()`**, even if you also call `rows.Close()`
+  explicitly at the end of the loop, which isn't a bad idea. 
+* Don't `defer` within a loop. A deferred statement doesn't get executed until
+  the function exits, so a long-running function shouldn't use it. If you do,
+  you will slowly accumulate memory. If you are repeatedly querying and
+  consuming result sets within a loop, you should explicitly call `rows.Close()`
+  when you're done with each result, and not use `defer`.
+
+How Scan() Works
+================
+
+When you iterate over rows and scan them into destination variables, Go performs data
+type conversions work for you, behind the scenes. It is based on the type of the
+destination variable. Being aware of this can clean up your code and help avoid
+repetitive work.
+
+For example, suppose you select some rows from a table that is defined with
+string columns, such as `VARCHAR(45)` or similar. You happen to know, however,
+that the table always contains numbers. If you pass a pointer to a string, Go
+will copy the bytes into the string. Now you can use `strconv.ParseInt()` or
+similar to convert the value to a number. You'll have to check for errors in the
+SQL operations, as well as errors parsing the integer. This is messy and
+tedious.
+
+Or, you can just pass `Scan()` a pointer to an integer. Go will detect that and
+call `strconv.ParseInt()` for you. If there's an error in conversion, the call
+to `Scan()` will return it. Your code is neater and smaller now. This is the
+recommended way to use `database/sql`.
 
 Preparing Queries
 =================
@@ -112,16 +133,16 @@ defer rows.Close()
 for rows.Next() {
 	// ...
 }
+if err = rows.Err(); err != nil {
+	log.Fatal(err)
+}
 </pre>
 
 Under the hood, `db.Query()` actually prepares, executes, and closes a prepared
 statement. That's three round-trips to the database. If you're not careful, you
 can triple the number of database interactions your application makes! Some
-drivers can avoid this in specific cases with an addition to `database/sql` in
-Go 1.1, but not all drivers are smart enough to do that. Caveat Emptor.
-
-Naturally prepared statements and the management of prepared statements cost
-resources. You should take care to close statements when they are not used again.
+drivers can avoid this in specific cases,
+but not all drivers do. See [prepared statements](prepared.html) for more.
 
 Single-Row Queries
 ==================
@@ -153,22 +174,6 @@ if err != nil {
 }
 fmt.Println(name)
 </pre>
-
-Go defines a special error constant, called `sql.ErrNoRows`, which is returned
-from `QueryRow()` when the result is empty. This needs to be handled as a
-special case in most circumstances. An empty result is often not considered an
-error by application code, and if you don't check whether an error is this
-special constant, you'll cause application-code errors you didn't expect.
-
-One might ask why an empty result set is considered an error. There's nothing
-erroneous about an empty set. The reason is that the `QueryRow()` method needs
-to use this special-case in order to let the caller distinguish whether
-`QueryRow()` in fact found a row; without it, `Scan()` wouldn't do anything and
-you might not realize that your variable didn't get any value from the database
-after all.
-
-You should not run into this error when you're not using `QueryRow()`. If you
-encounter this error elsewhere, you're doing something wrong.
 
 **Previous: [Accessing the Database](accessing.html)**
 **Next: [Modifying Data and Using Transactions](modifying.html)**

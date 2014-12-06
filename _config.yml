@@ -4,3 +4,4 @@ safe: true
 lsi: false
 pygments: true
 timezone: UTC
+markdown: kramdown

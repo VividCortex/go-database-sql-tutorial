@@ -7,6 +7,7 @@ There is a basic connection pool in the `database/sql` package. There isn't a
 lot of ability to control or inspect it, but here are some things you might find
 useful to know:
 
+* Connection pooling means that executing two consecutive statements on a single database might open two connections and execute them separately. It is fairly common for programmers to be confused as to why their code misbehaves. For example, `LOCK TABLES` followed by an `INSERT` can block because the `INSERT` is on a connection that does not hold the table lock.
 * Connections are created when needed and there isn't a free connection in the pool.
 * By default, there's no limit on the number of connections. If you try to do a lot of things at once, you can create an arbitrary number of connections. This can cause the database to return an error such as "too many connections."
 * In Go 1.1 or newer, you can use `db.SetMaxIdleConns(N)` to limit the number of *idle* connections in the pool. This doesn't limit the pool size, though.
