@@ -61,7 +61,7 @@ several reasons for this:
 If you don't want to use a prepared statement, you need to use `fmt.Sprint()` or
 similar to assemble the SQL, and pass this as the only argument to `db.Query()`
 or `db.QueryRow()`. And your driver needs to support plaintext query execution,
-which is added in Go 1.1 via the `Execer` interface,
+which is added in Go 1.1 via the `Execer` and `Queryer` interfaces,
 [documented here](http://golang.org/pkg/database/sql/driver/#Execer).
 
 Prepared Statements in Transactions
@@ -75,9 +75,13 @@ connection underlying it.
 This also means that prepared statements created inside a `Tx` can't be used
 separately from it. Likewise, prepared statements created on a `DB` can't be
 used within a transaction, because they will be bound to a different connection.
-To use a prepared statement prepared outside the transaction in a `Tx`, use
+
+To use a prepared statement prepared outside the transaction in a `Tx`, you can use
 `Tx.Stmt()`, which will create a new transaction-specific statement from the one
-prepared outside the transaction.
+prepared outside the transaction. It does this by taking an existing prepared statement,
+setting the connection to that of the transaction and repreparing all statements every
+time they are executed. This behavior and its implementation are undesirable and there's
+even a TODO in the `database/sql` source code to improve it; we advise against using this.
 
 Caution must be exercised when working with prepared statements in
 transactions. Consider the following example:
