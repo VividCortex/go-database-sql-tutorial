@@ -18,7 +18,7 @@ Consider the following code:
 for rows.Next() {
    // ...
 }
-if err = rows.Err(); err != nil {
+if err = rows.Close(); err != nil {
    // handle the error here
 }
 </pre>
