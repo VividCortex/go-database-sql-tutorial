@@ -24,7 +24,7 @@ if err = rows.Err(); err != nil {
 </pre>
 
 The error from `rows.Err()` could be the result of a variety of errors in the
-`rows.Next()` loop. The most important thing is to be aware that this `for` loop
+`rows.Next()` loop. The loop
 might exit for some reason other than finishing the loop normally, so you always
 need to check whether the loop terminated normally or not. An abnormal
 termination automatically calls `rows.Close()`, although it's harmless to call it
@@ -52,8 +52,8 @@ if err = rows.Close(); err != nil {
 
 The error returned by `rows.Close()` is the only exception to the general rule
 that it's best to capture and check for errors in all database operations. If
-`rows.Close()` returns an error, it's unclear what is the right thing to do.
-Logging the error message or panicing might be the only sensible thing to do,
+`rows.Close()` returns an error, it's unclear what you should do.
+Logging the error message or panicing might be the only sensible thing,
 and if that's not sensible, then perhaps you should just ignore the error.
 
 Errors From QueryRow()
