@@ -16,16 +16,43 @@ Consider the following code:
 
 <pre class="prettyprint lang-go">
 for rows.Next() {
-   // ...
+	// ...
 }
 if err = rows.Err(); err != nil {
-   // handle the error here
+	// handle the error here
+}
+</pre>
+
+The error from `rows.Err()` could be the result of a variety of errors in the
+`rows.Next()` loop. The most important thing is to be aware that this `for` loop
+might exit for some reason other than finishing the loop normally, so you always
+need to check whether the loop terminated normally or not. An abnormal
+termination automatically calls `rows.Close()`, although it's harmless to call it
+multiple times.
+
+Errors From Closing Resultsets
+==============================
+
+You should always explicitly close a `sql.Rows` if you exit the loop
+prematurely, as previously mentioned. It's auto-closed if the loop exits
+normally or through an error, but you might mistakenly do this:
+
+<pre class="prettyprint lang-go">
+for rows.Next() {
+	// ...
+	break; // whoops, rows is not closed! memory leak...
+}
+// do the usual "if err = rows.Err()" [omitted here]...
+// it's always safe to [re?]close here:
+if err = rows.Close(); err != nil {
+	// but what should we do if there's an error?
+	log.Println(err)
 }
 </pre>
 
 The error returned by `rows.Close()` is the only exception to the general rule
 that it's best to capture and check for errors in all database operations. If
-`rows.Close()` throws an error, it's unclear what is the right thing to do.
+`rows.Close()` returns an error, it's unclear what is the right thing to do.
 Logging the error message or panicing might be the only sensible thing to do,
 and if that's not sensible, then perhaps you should just ignore the error.
 
