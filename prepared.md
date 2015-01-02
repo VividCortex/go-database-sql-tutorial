@@ -14,7 +14,7 @@ Prepared Statements And Connections
 At the database level, a prepared statement is bound to a single database
 connection. The typical flow is that the client sends a SQL statement with
 placeholders to the server for preparation, the server responds with a statement
-ID, and then the client executes the statement by sending its ID and paraemters.
+ID, and then the client executes the statement by sending its ID and parameters.
 
 In Go, however, connections are not exposed directly to the user of the
 `database/sql` package. You don't prepare a statement on a connection. You
