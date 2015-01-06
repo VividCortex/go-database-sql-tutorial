@@ -38,16 +38,18 @@ if err != nil {
 }
 </pre>
 
-If you don't know the columns or their types, you should use `sql.RawBytes`.
+If you don't know the columns or their types, you should use `interface{}` or `[]byte`.
 
 <pre class="prettyprint lang-go">
 cols, err := rows.Columns() // Remember to check err afterwards
-vals := make([]interface{}, len(cols))
+values := make([]interface{}, len(cols))
+// Scan needs pointers to values.
+valuePtrs := make([]interface{}, len(cols))
 for i, _ := range cols {
-	vals[i] = new(sql.RawBytes)
+	valuePtrs[i] = &values[i]
 }
 for rows.Next() {
-	err = rows.Scan(vals...)
+	err = rows.Scan(valuePtrs...)
 	// Now you can check each element of vals for nil-ness,
 	// and you can use type introspection and type assertions
 	// to fetch the column into a typed variable.
