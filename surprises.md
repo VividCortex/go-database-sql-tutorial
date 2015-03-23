@@ -67,7 +67,7 @@ Multiple Result Sets
 
 The Go driver doesn't support multiple result sets from a single query in any
 way, and there doesn't seem to be any plan to do that, although there is [a
-feature request](https://code.google.com/p/go/issues/detail?id=5171) for
+feature request](https://github.com/golang/go/issues/5171) for
 supporting bulk operations such as bulk copy.
 
 This means, among other things, that a stored procedure that returns multiple

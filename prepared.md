@@ -118,7 +118,7 @@ underlying connection, rendering the connection state inconsistent.
 you should make sure the statement is always closed before the transaction is
 committed or rolled back.
 
-This is a [known issue](https://code.google.com/p/go/issues/detail?id=4459) that
+This is a [known issue](https://github.com/golang/go/issues/4459) that
 will probably be fixed in Go 1.4 by [CR 131650043](https://codereview.appspot.com/131650043).
 
 Parameter Placeholder Syntax
