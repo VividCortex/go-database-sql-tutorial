@@ -142,7 +142,7 @@ driver specific.
 
 This code is still ugly. Comparing to 1045, a magic number, is a code smell.
 Some drivers (though not the MySQL one, for reasons that are off-topic here)
-provide a list of error identifiers. The `libpq` driver does, for example, in
+provide a list of error identifiers. The Postgres `pq` driver does, for example, in
 [error.go](https://github.com/lib/pq/blob/master/error.go). And there's an
 external package of [MySQL error numbers maintained by
 VividCortex](https://github.com/VividCortex/mysqlerr). Using such a list, the
