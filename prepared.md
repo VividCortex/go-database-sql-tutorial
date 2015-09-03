@@ -110,16 +110,13 @@ if err != nil {
 // stmt.Close() runs here!
 </pre>
 
-Closing a `*sql.Tx` releases the connection associated with it back into the
-pool, but the deferred call to Close on the prepared statement is executed
+
+Before Go 1.4 closing a `*sql.Tx` released the connection associated with it back into the
+pool, but the deferred call to Close on the prepared statement was executed
 **after** that has happened, which could lead to concurrent access to the
 underlying connection, rendering the connection state inconsistent.
-`database/sql` does not guard you against this particular behaviour.  Instead,
-you should make sure the statement is always closed before the transaction is
-committed or rolled back.
-
-This is a [known issue](https://github.com/golang/go/issues/4459) that
-will probably be fixed in Go 1.4 by [CR 131650043](https://codereview.appspot.com/131650043).
+If you use Go 1.4 or older, you should make sure the statement is always closed before the transaction is
+committed or rolled back. [This issue](https://github.com/golang/go/issues/4459) was fixed in Go 1.4 by [CR 131650043](https://codereview.appspot.com/131650043).
 
 Parameter Placeholder Syntax
 ============================
