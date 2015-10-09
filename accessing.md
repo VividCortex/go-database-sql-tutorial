@@ -21,7 +21,7 @@ func main() {
 
 In the example shown, we're illustrating several things:
 
-1. The first argument to `sql.Open` is the driver name. This is the string that the driver used to register itself with `database/sql`, and is conventionally the same as the package name to avoid confusion.
+1. The first argument to `sql.Open` is the driver name. This is the string that the driver used to register itself with `database/sql`, and is conventionally the same as the package name to avoid confusion. It's `mysql` for MySQL database driver \[[github.com/go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)\]. Or `sqlite3` if you use SQLite database driver \[[github.com/mattn/go-sqlite3](https://github.com/mattn/go-sqlite3)\], `postgres` for PostgreSQL database driver \[[github.com/lib/pq](https://github.com/lib/pq)\].
 2. The second argument is a driver-specific syntax that tells the driver how to access the underlying datastore. In this example, we're connecting to the "hello" database inside a local MySQL server instance.
 3. You should (almost) always check and handle errors returned from all `database/sql` operations.  There are a few special cases that we'll discuss later where it doesn't make sense to do this.
 4. It is idiomatic to `defer db.Close()` if the `sql.DB` should not have a lifetime beyond the scope of the function.
