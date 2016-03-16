@@ -37,5 +37,22 @@ you need more convincing:
 If you need to define your own types to handle NULLs, you can copy the design of
 `sql.NullString` to achieve that.
 
+If you can't avoid having NULL values in your database, there is another work around that most database systems support, namely `COALESCE()`. Something like the following might be something that you can use, without introducing a myriad of `sql.Null*` types.
+<pre class="prettyprint lang-go">
+rows, err := db.Query(`
+	SELECT
+		name,
+		COALESCE(other_field, '') as other_field
+	WHERE id = ?
+`, 42)
+
+for rows.Next() {
+	err := rows.Scan(&name, &otherField)
+	// ..
+	// If `other_field` was NULL, `otherField` is now an empty string. This works with other data types as well.
+}
+</pre>
+
+
 **Previous: [Handling Errors](errors.html)**
 **Next: [Working with Unknown Columns](varcols.html)**
