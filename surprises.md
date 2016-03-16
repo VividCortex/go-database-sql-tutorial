@@ -117,7 +117,7 @@ rows, err := db.Query("select * from tbl1") // Uses connection 1
 for rows.Next() {
 	err = rows.Scan(&myvariable)
 	// The following line will NOT use connection 1, which is already in-use
-   db.Query("select * from tbl2 where id = ?", myvariable)
+	db.Query("select * from tbl2 where id = ?", myvariable)
 }
 </pre>
 
@@ -130,7 +130,7 @@ rows, err := tx.Query("select * from tbl1") // Uses tx's connection
 for rows.Next() {
 	err = rows.Scan(&myvariable)
 	// ERROR! tx's connection is already busy!
-   tx.Query("select * from tbl2 where id = ?", myvariable)
+	tx.Query("select * from tbl2 where id = ?", myvariable)
 }
 </pre>
 
