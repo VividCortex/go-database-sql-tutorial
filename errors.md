@@ -102,7 +102,7 @@ to use this special-case in order to let the caller distinguish whether
 you might not realize that your variable didn't get any value from the database
 after all.
 
-You should not run into this error when you're not using `QueryRow()`. If you
+You should only run into this error when you're using `QueryRow()`. If you
 encounter this error elsewhere, you're doing something wrong.
 
 Identifying Specific Database Errors
