@@ -29,4 +29,4 @@ more about this later.
 After creating a `sql.DB`, you can use it to query the database that it
 represents, as well as creating statements and transactions.
 
-**Next: [Importing a Database Driver](importing.html)**
+**Next: [Importing a Database Driver](importing.md)**
