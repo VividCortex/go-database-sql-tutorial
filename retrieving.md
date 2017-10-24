@@ -120,6 +120,10 @@ a colon and are named, like `:param1`. We'll use `?` because we're using MySQL
 as our example.
 
 <pre class="prettyprint lang-go">
+stmt, err := db.Prepare("select id, name from users where id = $1")
+</pre>
+
+<pre class="prettyprint lang-go">
 stmt, err := db.Prepare("select id, name from users where id = ?")
 if err != nil {
 	log.Fatal(err)
