@@ -15,5 +15,5 @@ useful to know:
 * Connections are recycled rather fast. Setting a high number of idle connections with `db.SetMaxIdleConns(N)` can reduce this churn, and help keep connections around for reuse.
 * Keeping a connection idle for a long time can cause problems (like in [this issue](https://github.com/go-sql-driver/mysql/issues/257) with MySQL on Microsoft Azure). Try `db.SetMaxIdleConns(0)` if you get connection timeouts because a connection is idle for too long.
 
-**Previous: [Working with Unknown Columns](varcols.html)**
-**Next: [Surprises, Antipatterns and Limitations](surprises.html)**
+**Previous: [Working with Unknown Columns](varcols.md)**
+**Next: [Surprises, Antipatterns and Limitations](surprises.md)**
