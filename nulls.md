@@ -42,7 +42,7 @@ If you can't avoid having NULL values in your database, there is another work ar
 rows, err := db.Query(`
 	SELECT
 		name,
-		COALESCE(other_field, '') as other_field
+		COALESCE(other_field, '') as otherField
 	WHERE id = ?
 `, 42)
 
