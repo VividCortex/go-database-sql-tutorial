@@ -167,6 +167,7 @@ stmt, err := db.Prepare("select name from users where id = ?")
 if err != nil {
 	log.Fatal(err)
 }
+defer stmt.Close()
 var name string
 err = stmt.QueryRow(1).Scan(&amp;name)
 if err != nil {
