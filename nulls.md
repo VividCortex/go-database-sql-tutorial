@@ -53,6 +53,22 @@ for rows.Next() {
 }
 </pre>
 
+Another trick to handle NULLs without using nullable types. 
+
+Use pointers.
+
+<pre class="prettyprint lang-go">
+for rows.Next() {
+	var s *string
+	err := rows.Scan(&amp;s)
+	// check err
+	if s != nil {
+	   // use s.String
+	} else {
+	   // NULL value
+	}
+}
+</pre>
 
 **Previous: [Handling Errors](errors.html)**
 **Next: [Working with Unknown Columns](varcols.html)**
