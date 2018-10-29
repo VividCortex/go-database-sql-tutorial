@@ -30,7 +30,7 @@ import (
 Notice that we're loading the driver anonymously, aliasing its package qualifier
 to `_` so none of its exported names are visible to our code. Under the hood,
 the driver registers itself as being available to the `database/sql` package,
-but in general nothing else happens.
+but in general nothing else happens with the exception that the init function is run.
 
 Now you're ready to access a database.
 
