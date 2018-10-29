@@ -2,6 +2,6 @@ title:            Go database/sql tutorial
 description:      Use database/sql effectively!
 safe: true
 lsi: false
-pygments: true
+highlighter: rouge
 timezone: UTC
 markdown: kramdown
