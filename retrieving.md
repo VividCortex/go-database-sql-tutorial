@@ -11,7 +11,7 @@ There are several idiomatic operations to retrieve results from the datastore.
 1. Execute a query that returns a single row. There is a shortcut for this special case.
 
 Go's `database/sql` function names are significant. **If a function name
-includes `Query`, it is designed to ask a question of the database, and will
+includes `Query`, it is designed to ask a question to the database, and will
 return a set of rows**, even if it's empty. Statements that don't return rows
 should not use `Query` functions; they should use `Exec()`.
 
