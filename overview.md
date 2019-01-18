@@ -21,7 +21,7 @@ The `sql.DB` abstraction is designed to keep you from worrying about how to
 manage concurrent access to the underlying datastore.  A connection is marked
 in-use when you use it to perform a task, and then returned to the available
 pool when it's not in use anymore. One consequence of this is that **if you fail
-to release connections back to the pool, you can cause `db.SQL` to open a lot of
+to release connections back to the pool, you can cause `sql.DB` to open a lot of
 connections**, potentially running out of resources (too many connections, too
 many open file handles, lack of available network ports, etc). We'll discuss
 more about this later.
