@@ -6,6 +6,9 @@ docs:
   - title: Overview
     url: overview.html
 
+  - title: Importing a Database Driver
+    url: importing.html
+
   - title: Accessing the Database
     url: accessing.html
 
