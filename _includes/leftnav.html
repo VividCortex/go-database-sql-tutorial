@@ -1,23 +1,11 @@
 <div class="leftnav">
   <ul class="nav nav-list">
-{% for group in page.nav %}
-  {% capture group_url %}/{{ page.name }}/{{ group.url }}{% endcapture %}
-  <li class="nav-header{% if page.url == node_url %} active{% endif %}">
-    {% if page.url %}
-      <a href="{{group.url}}">{{group.name}}</a>
-    {% else %}
-      {{group.name}}
-    {% endif %}
-  </li>
-  {% for node in group.articles %}
-    {% capture node_url %}/{{ page.name }}/{{ node.url }}{% endcapture %}
-    {% if page.url == node_url %}
-      <li class="active"><a href="{{node.url}}">{{node.title}}</a></li>
-    {% else %}
-      <li><a href="{{node.url}}">{{node.title}}</a></li>
-    {% endif %}
-  {% endfor %}
-{% endfor %}
+    {% for doc in site.data.nav.docs %}
+      {% assign curr_url = page.url | remove_first: "/" %}
+      <li class="{% if doc.url == 'index.html' %}nav-header{% endif %} {% if curr_url == doc.url %}active{% endif %}">
+        <a href="{{ doc.url }}">{{ doc.title }}</a>
+      </li>
+    {% endfor %}
   </ul>
   <hr />
   <div class="license">

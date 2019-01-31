@@ -1,0 +1,40 @@
+docs:
+
+  - title: Go database/sql tutorial
+    url: index.html
+
+  - title: Overview
+    url: overview.html
+
+  - title: Importing a Database Driver
+    url: importing.html
+
+  - title: Accessing the Database
+    url: accessing.html
+
+  - title: Retrieving Result Sets
+    url: retrieving.html
+
+  - title: Modifying Data and Using Transactions
+    url: modifying.html
+
+  - title: Using Prepared Statements
+    url: prepared.html
+
+  - title: Handling Errors
+    url: errors.html
+
+  - title: Working with NULLs
+    url: nulls.html
+
+  - title: Working with Unknown Columns
+    url: varcols.html
+
+  - title: The Connection Pool
+    url: connection-pool.html
+
+  - title: Surprises, Antipatterns and Limitations
+    url: surprises.html
+
+  - title: Related Reading and Resources
+    url: references.html
