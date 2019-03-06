@@ -12,7 +12,7 @@ Statements that Modify Data
 ===========================
 
 Use `Exec()`, preferably with a prepared statement, to accomplish an `INSERT`,
-`UPDATE`, `DELETE`, or other statement that doesn't return rows. The following
+`UPDATE`, `DELETE`, or another statement that doesn't return rows. The following
 example shows how to insert a row and inspect metadata about the operation:
 
 <pre class="prettyprint lang-go">
