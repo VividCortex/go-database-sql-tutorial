@@ -12,7 +12,7 @@ of a "database" or "schema." It's an abstraction of the interface and existence
 of a database, which might be as varied as a local file, accessed through a network
 connection, or in-memory and in-process.
 
-The `sql.DB` performs some important tasks for you behind the scenes:
+`sql.DB` performs some important tasks for you behind the scenes:
 
 * It opens and closes connections to the actual underlying database, via the driver.
 * It manages a pool of connections as needed, which may be a variety of things as mentioned.
