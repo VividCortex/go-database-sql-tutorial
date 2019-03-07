@@ -84,8 +84,8 @@ code. Bad things might result:
 * You could believe you're executing queries on a single connection, inside of a transaction, when in reality Go has created several connections for you invisibly and some statements aren't part of the transaction.
 
 While you are working inside a transaction you should be careful not to make
-calls to the `Db` variable. Make all of your calls to the `Tx` variable that you
-created with `db.Begin()`. The `Db` is not in a transaction, only the `Tx` is.
+calls to the `db` variable. Make all of your calls to the `Tx` variable that you
+created with `db.Begin()`. `db` is not in a transaction, only the `Tx` object is.
 If you make further calls to `db.Exec()` or similar, those will happen outside
 the scope of your transaction, on other connections.
 
