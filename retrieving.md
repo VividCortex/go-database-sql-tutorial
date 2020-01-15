@@ -76,6 +76,7 @@ A couple parts of this are easy to get wrong, and can have bad consequences.
 * `rows.Close()` is a harmless no-op if it's already closed, so you can call
   it multiple times. Notice, however, that we check the error first, and only
   call `rows.Close()` if there isn't an error, in order to avoid a runtime panic.
+  For example, if `rows` is `nil`, `defer rows.Close()` will cause a nil pointer dereference panic after the function exits.
 * You should **always `defer rows.Close()`**, even if you also call `rows.Close()`
   explicitly at the end of the loop, which isn't a bad idea. 
 * Don't `defer` within a loop. A deferred statement doesn't get executed until
