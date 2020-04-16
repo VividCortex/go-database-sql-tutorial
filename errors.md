@@ -86,7 +86,7 @@ returned from that. The above code is better written like this instead:
 var name string
 err = db.QueryRow("select name from users where id = ?", 1).Scan(&amp;name)
 if err != nil {
-	if err == sql.ErrNoRows {
+	if errors.Is(err, sql.ErrNoRows) {
 		// there were no rows, but otherwise no error occurred
 	} else {
 		log.Fatal(err)
@@ -128,7 +128,8 @@ part of `database/sql` itself. In the MySQL driver that this tutorial focuses
 on, you could write the following code:
 
 <pre class="prettyprint lang-go">
-if driverErr, ok := err.(*mysql.MySQLError); ok { // Now the error number is accessible directly
+var driverErr *mysql.MYSQLError
+if errors.As(err, &driverErr) { // Now the error number is accessible directly
 	if driverErr.Number == 1045 {
 		// Handle the permission-denied error
 	}
@@ -149,7 +150,8 @@ VividCortex](https://github.com/VividCortex/mysqlerr). Using such a list, the
 above code is better written thus:
 
 <pre class="prettyprint lang-go">
-if driverErr, ok := err.(*mysql.MySQLError); ok {
+var driverErr *mysql.MYSQLError
+if errors.As(err, &driverErr) {
 	if driverErr.Number == mysqlerr.ER_ACCESS_DENIED_ERROR {
 		// Handle the permission-denied error
 	}
