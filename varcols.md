@@ -51,6 +51,11 @@ for rows.Next() {
 	// Now you can check each element of vals for nil-ness,
 	// and you can use type introspection and type assertions
 	// to fetch the column into a typed variable.
+	
+	//If you want to get the column value,you can just do it like this 
+	col_value := scanArgs[i].(*sql.RawBytes)
+	value := string(*col_value)
+	fmt.Println(value)
 }
 </pre>
 
