@@ -36,12 +36,14 @@ defer rows.Close()
 for rows.Next() {
 	err := rows.Scan(&amp;id, &amp;name)
 	if err != nil {
+		// log.Fatal will exit the program, preventing the deferred call to rows.Close()
 		log.Fatal(err)
 	}
 	log.Println(id, name)
 }
 err = rows.Err()
 if err != nil {
+	// log.Fatal will exit the program, preventing the deferred call to rows.Close()
 	log.Fatal(err)
 }
 </pre>
