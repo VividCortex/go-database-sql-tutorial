@@ -17,6 +17,7 @@ example shows how to insert a row and inspect metadata about the operation:
 
 <pre class="prettyprint lang-go">
 stmt, err := db.Prepare("INSERT INTO users(name) VALUES(?)")
+defer stmt.Close()
 if err != nil {
 	log.Fatal(err)
 }
