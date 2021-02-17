@@ -89,23 +89,24 @@ transactions. Consider the following example:
 <pre class="prettyprint lang-go">
 tx, err := db.Begin()
 if err != nil {
-	log.Fatal(err)
+	log.Error(err)
 }
-defer tx.Rollback()
+
 stmt, err := tx.Prepare("INSERT INTO foo VALUES (?)")
 if err != nil {
-	log.Fatal(err)
+	log.Error(err)
 }
 defer stmt.Close() // danger!
 for i := 0; i < 10; i++ {
 	_, err = stmt.Exec(i)
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 }
 err = tx.Commit()
 if err != nil {
-	log.Fatal(err)
+	log.Error(err)
+    tx.Rollback()
 }
 // stmt.Close() runs here!
 </pre>
