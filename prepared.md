@@ -106,7 +106,7 @@ for i := 0; i < 10; i++ {
 err = tx.Commit()
 if err != nil {
 	log.Error(err)
-    tx.Rollback()
+	tx.Rollback()
 }
 // stmt.Close() runs here!
 </pre>
