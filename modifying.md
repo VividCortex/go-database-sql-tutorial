@@ -36,7 +36,7 @@ log.Printf("ID = %d, affected = %d\n", lastId, rowCnt)
 </pre>
 
 Executing the statement produces a `sql.Result` that gives access to statement
-metadata: the last inserted ID and the number of rows affected.
+metadata: the last inserted ID (note that this is not available when using PostgreSQL) and the number of rows affected.
 
 What if you don't care about the result? What if you just want to execute a
 statement and check if there were any errors, but ignore the result? Wouldn't
